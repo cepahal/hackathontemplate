@@ -14,3 +14,5 @@ Start with `../AGENTS.md`, then `workflows/engineering-loop.md`.
 | Web fundamentals (AI-assisted) | `training/web-fundamentals/` |
 
 | Hackathon product strategy | `training/product-strategy/` |
+
+| Hackathon execution (idea→pitch) | `training/hackathon-execution/` |

@@ -18,3 +18,4 @@
 Always also follow `AGENTS.md`.
 | Learn web fundamentals | `prompts/features/web-fundamentals-tutor.md` + `docs/training/web-fundamentals/` |
 | Hackathon ideation | `prompts/hackathon/decode-prompt.md` → `ideate-twenty.md` → `decide-mvp.md` |
+| Hackathon execution / pitch | `prompts/hackathon/execution-lead.md`, `pitch-critique.md` |

@@ -1,0 +1,13 @@
+# Production readiness
+- [ ] Frontend build
+- [ ] Backend running
+- [ ] DB migrated
+- [ ] Env vars set (no secrets in client)
+- [ ] Auth callback URLs
+- [ ] CORS origins
+- [ ] API keys present
+- [ ] External APIs smoke
+- [ ] Logging without secrets
+- [ ] Health check
+- [ ] HTTPS
+- [ ] Demo path smoke on prod URL
