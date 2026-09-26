@@ -10,3 +10,5 @@
 Start with `../AGENTS.md`, then `workflows/engineering-loop.md`.
 
 | Debugging & recovery training | `training/debugging-recovery/` |
+
+| Web fundamentals (AI-assisted) | `training/web-fundamentals/` |

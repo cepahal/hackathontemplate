@@ -16,3 +16,4 @@
 | Protect live demo | `prompts/hackathon/protect-demo.md` |
 
 Always also follow `AGENTS.md`.
+| Learn web fundamentals | `prompts/features/web-fundamentals-tutor.md` + `docs/training/web-fundamentals/` |
