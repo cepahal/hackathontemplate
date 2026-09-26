@@ -1,0 +1,1 @@
+Intent: vision/multimodal calls behind the same wrapper patterns as text LLMs.

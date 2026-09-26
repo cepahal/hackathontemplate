@@ -1,0 +1,25 @@
+---
+description: Hard never-do and always-do rules for AI agents
+alwaysApply: true
+---
+
+# Never / Always
+
+## Never
+- Rewrite large subsystems without explicit need
+- Duplicate components, utilities, hooks, or services
+- Add dependencies without stated justification
+- Touch unrelated files
+- Guess when the repo can be inspected
+- Claim tests/lint/typecheck passed if not run
+- Commit or log secrets
+- Silently change architecture, schema, or public contracts
+
+## Always
+- Inspect → search → reuse before creating
+- Make the smallest correct change
+- Preserve existing behavior unless the task changes it
+- Handle errors consistently with local patterns
+- Review your own diff
+- State assumptions and residual risks
+- Protect the demo path under time pressure

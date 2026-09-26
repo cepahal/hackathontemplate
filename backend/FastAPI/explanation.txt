@@ -1,0 +1,1 @@
+Intent: FastAPI app entry, routers, deps. Follow docs/conventions/backend.md and api.md.

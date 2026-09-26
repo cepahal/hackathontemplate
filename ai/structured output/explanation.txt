@@ -1,0 +1,1 @@
+Intent: schema-validated model outputs. Prompt: prompts/ai/structured-output.md.

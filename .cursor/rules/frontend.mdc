@@ -1,0 +1,18 @@
+---
+description: Frontend UI conventions — reuse, states, accessibility
+globs: frontend/**/*.{ts,tsx,js,jsx,css,scss},**/*.{tsx,jsx},**/components/**/*
+alwaysApply: false
+---
+
+# Frontend Conventions
+
+- Search `frontend/` (and app component dirs) before creating UI primitives
+- Reuse buttons, forms, cards, modals, navbar, dashboard patterns
+- Every interactive view needs loading, error, and empty states
+- Prefer composition over one-off styled duplicates
+- Keep client/server boundaries clear (no secrets in client bundles)
+- Accessible defaults: labels, focus, keyboard, contrast
+- Responsive: mobile-first; do not ship desktop-only demos without checking narrow viewports
+- Animations: purposeful, subtle; never block core interaction
+
+See `docs/conventions/frontend.md` and `docs/conventions/ui-ux.md`
