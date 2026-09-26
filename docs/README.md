@@ -8,3 +8,5 @@
 | Templates | `templates/` |
 
 Start with `../AGENTS.md`, then `workflows/engineering-loop.md`.
+
+| Debugging & recovery training | `training/debugging-recovery/` |

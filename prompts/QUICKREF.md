@@ -5,7 +5,7 @@
 | New vague feature request | `prompts/features/autonomous-feature-delivery.md` |
 | Orient to unfamiliar repo | `prompts/codebase/understand-repository.md` |
 | Design before coding | `prompts/architecture/design-new-feature.md` |
-| Bug | `prompts/debugging/*` matching layer |
+| Bug | `prompts/debugging/*` + `evidence-first-debug.md` |
 | Tests | `prompts/testing/*` |
 | Security pass | `prompts/security/full-security-review.md` |
 | PR / diff review | `prompts/code-review/full-review.md` |
