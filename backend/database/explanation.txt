@@ -1,0 +1,1 @@
+Intent: DB access/repos. Parameterize queries; ownership filters. See docs/conventions/database.md.

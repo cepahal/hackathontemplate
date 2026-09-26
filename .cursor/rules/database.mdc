@@ -1,0 +1,16 @@
+---
+description: Database and schema change discipline
+globs: database/**/*,**/migrations/**/*,**/models/**/*,**/*schema*
+alwaysApply: false
+---
+
+# Database Conventions
+
+- Inspect existing schema/migrations before adding tables or columns
+- Prefer additive, reversible migrations
+- Enforce ownership/tenant filters in queries (prevent IDOR)
+- Index what you filter/join on in hot paths
+- Never put secrets in the database casually; encrypt or use a vault pattern if required
+- Document breaking schema changes in the PR/report
+
+See `docs/conventions/database.md`

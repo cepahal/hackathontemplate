@@ -1,0 +1,10 @@
+# Docs
+
+| Area | Path |
+|---|---|
+| Architecture | `architecture/` |
+| Conventions | `conventions/` |
+| Workflows | `workflows/` |
+| Templates | `templates/` |
+
+Start with `../AGENTS.md`, then `workflows/engineering-loop.md`.

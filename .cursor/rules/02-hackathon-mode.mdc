@@ -1,0 +1,26 @@
+---
+description: Time-aware hackathon prioritization and anti-scope-creep
+alwaysApply: true
+---
+
+# Hackathon Mode
+
+When hacking under time pressure, prioritize:
+
+```text
+working core flow → reliability → UX → visual polish → testing → security → extras
+```
+
+## Time bands
+- **12+ h:** build properly; critical-path tests
+- **6–12 h:** MVP vertical slice; defer polish
+- **2–6 h:** stabilize + polish demo; freeze new architecture
+- **< 2 h:** architecture freeze; fix blockers only; protect the demo
+
+## Anti-scope-creep
+- Complete the demo path before optional features
+- Prefer boring, proven patterns over novel architecture
+- Defer refactors that do not unblock the demo
+- If asked for extras mid-crunch, finish core first and list extras as follow-ups
+
+Details: `docs/workflows/hackathon-mode.md`

@@ -1,0 +1,1 @@
+Intent: card layouts for dashboards/lists. Prefer composition; avoid nested card soup.
