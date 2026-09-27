@@ -1,0 +1,13 @@
+"""Copy to app/api/routes/example.py; then register in app/api/router.py."""
+
+from fastapi import APIRouter
+
+from app.schemas.example import ExampleRequest, ExampleResponse
+from app.services.example import process_text
+
+router = APIRouter(prefix="/examples", tags=["examples"])
+
+
+@router.post("", response_model=ExampleResponse)
+async def create_example(payload: ExampleRequest) -> ExampleResponse:
+    return ExampleResponse(text=process_text(payload.text))
