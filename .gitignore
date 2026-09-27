@@ -11,3 +11,32 @@ build/
 .next/
 *.pyc
 .pytest_cache/
+
+# Application starter exclusions
+# Dependencies and generated files
+node_modules/
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local configuration and logs (examples stay tracked)
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.log
+.DS_Store
+Thumbs.db
+
+# Local verification artifacts
+.artifacts/

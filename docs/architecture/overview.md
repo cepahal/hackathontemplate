@@ -5,7 +5,19 @@
 ## Purpose
 
 Reusable hackathon starter + **AI Coding Agent Operating System**.
-Scaffold folders mark intended feature areas; they are not a finished application until you add real code.
+The application starter now implements Next.js, FastAPI and Supabase modules. Original scaffold folders remain intent markers alongside the implementation. Offline checks pass; hosted service acceptance is tracked separately in [the delivery record](../DELIVERY.md).
+
+## Implemented application
+
+- `frontend/src/app/`: workspace, login, landing, chat and health-diagnostic routes.
+- `frontend/src/components/`: project CRUD, AI/RAG/vision, agents, billing, integrations and collaboration panels; reusable UI.
+- `backend/app/modules/`: identity, AI, integrations, commerce and realtime APIs under `/api/v1`.
+- `database/migrations/`: core ownership/RLS/vector schema and transactional billing event persistence.
+- `database/tests/`: hosted two-account RLS and billing verification scripts.
+- `scripts/check.mjs`: frontend lint/types/tests/build and backend Ruff/pytest/dependency checks.
+- `.github/workflows/checks.yml`: Linux CI. Hosting configurations target Vercel plus Railway or Render.
+
+User requests validate Supabase bearer identity and preserve user-JWT RLS. Only billing webhook processing uses a backend service-role credential. Provider keys remain server-side. See [deployment](../DEPLOYMENT.md), [integrations](../INTEGRATIONS.md), and [realtime](../REALTIME.md) for account setup and operational limits.
 
 ## Top-level layout
 

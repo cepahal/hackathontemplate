@@ -1,4 +1,58 @@
-# Hackathon Template + AI Coding Agent OS
+# Hackathon starter
+
+Reusable Next.js / TypeScript / Tailwind frontend, FastAPI API, and Supabase database starter. The nine areas are reviewed sequentially using [docs/DELIVERY.md](docs/DELIVERY.md). Provider credentials, hosted database execution, and deployment verification are separate acceptance gates.
+
+## Begin here
+
+1. Read the [delivery record](docs/DELIVERY.md) for implemented behavior and remaining checks.
+2. Run `npm.cmd run setup` from this folder. Requires Node 22.19+ and Python 3.11+; setup also discovers Codex's bundled Python. Existing environment files are preserved.
+3. Follow [database setup](database/README.md): create Supabase, apply migrations in order, create test accounts, and run the two-account access-control verification before storing real data.
+4. Fill `frontend/.env.local` and `backend/.env` using their examples. Never put service-role or provider secrets in `NEXT_PUBLIC_` variables.
+5. Run `npm.cmd run check` for lint, types, production build and offline tests. It does not start a preview.
+6. Follow [deployment instructions](docs/DEPLOYMENT.md) for Vercel and Railway/Render when your accounts are ready.
+
+No preview starts automatically. Optional development commands are `npm.cmd run dev`, `dev:frontend`, and `dev:backend`; they bind to loopback. Stop development servers before setup/checks. Current delivery uses files, builds and in-process tests with no application server left running.
+
+## Nine areas
+
+| # | Area | Implementation |
+| --- | --- | --- |
+| 1 | Full-stack + database | Project CRUD, typed API, schema, migrations, seeds, RLS and membership |
+| 2 | Deployment + DevOps | Docker, Render/Railway config, GitHub Actions, Vercel release instructions |
+| 3 | Authentication + security | Email/password, Google, sessions, validated identity and roles |
+| 4 | AI infrastructure | OpenAI/Anthropic/Gemini text, SSE, structured responses, vision; OpenAI/Gemini embeddings |
+| 5 | Agents + RAG | Text ingestion, retrieval/citations, persisted bounded agents, approval-gated writes |
+| 6 | UI system | Reusable components; workspace, landing and chat layouts |
+| 7 | External APIs | GitHub, Maps, Discord, Slack, Twilio, Spotify and YouTube adapters |
+| 8 | Payments + events | Stripe checkout/portal, subscription/order state, signed deduplicated webhooks |
+| 9 | Multimodal + realtime | Image analysis/OCR prompts, text upload, notifications, private presence and bounded shared state |
+
+Missing configuration produces setup errors rather than simulated success. This is a reusable starter, not production certification. [The delivery record](docs/DELIVERY.md) distinguishes implemented examples from extension points.
+
+## Layout and contracts
+
+- `frontend/src/app/`: workspace, login, welcome, chat and foundation pages.
+- `frontend/src/components/`: panels and shared UI; `frontend/src/lib/`: authenticated HTTP/SSE and Supabase clients.
+- `backend/app/modules/`: identity, AI, integrations, commerce, realtime.
+- `backend/app/core/`: configuration, errors, request limits; `backend/tests/`: mocked-provider behavioral tests.
+- `database/migrations/`: core/billing SQL; `database/tests/`: hosted RLS verification.
+- `scripts/`: setup, development supervision, checks; `templates/`: copyable starters.
+- `docs/`: acceptance and hosting; `.github/workflows/`: build/test CI.
+
+`GET /health` verifies the API process, not provider readiness. Restricted APIs use `/api/v1`. User operations validate bearer identity and preserve JWT-based database RLS. Billing webhook persistence alone uses the service-role credential.
+
+Detailed references: [database](database/README.md), [identity](backend/app/modules/identity/README.md), [AI](ai/README.md), [templates](templates/README.md), [deployment](docs/DEPLOYMENT.md).
+
+## Dependencies and GitHub
+
+Frontend versions are locked in `frontend/package-lock.json`. Backend declarations are in `backend/pyproject.toml`, with resolved constraints in `backend/requirements.lock`. Setup uses a project-local npm cache, disables pip's global cache, and keeps TLS verification enabled.
+
+On macOS/Linux, create `backend/.venv`, install `requirements-dev.txt` from the backend directory, run `npm --prefix frontend ci`, and copy example environments without replacing existing files. `npm run check` supports both Windows and POSIX virtualenv paths.
+
+
+## Team instructions and training
+
+### Hackathon Template + AI Coding Agent OS
 
 Fork this during events. Then treat coding agents as **senior engineering teammates**, not autocomplete.
 

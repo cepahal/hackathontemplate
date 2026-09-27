@@ -1,0 +1,59 @@
+-- PLANNING TEMPLATE ONLY. Every SQL statement below is commented out.
+-- This does not configure PostgreSQL, Supabase, authentication, or migrations.
+-- Choose your migration tool and local test database before creating a real file.
+-- Replace every <placeholder>; review and uncomment only the required statements.
+
+-- Feature: <name>
+-- Depends on: <existing tables, roles, extensions, or none>
+-- Data ownership: <who may read, insert, update, and delete each record>
+-- Rollout: <backfill/default plan and whether existing clients remain compatible>
+-- Rollback: <specific recovery steps; note any irreversible data loss>
+
+-- BEGIN;
+
+-- CREATE TABLE public.<table_name> (
+--   id <chosen_primary_key_type> PRIMARY KEY,
+--   <owner_column> <owner_key_type> NOT NULL,
+--   <value_column> <value_type> NOT NULL,
+--   created_at timestamptz NOT NULL DEFAULT now(),
+--   CONSTRAINT <constraint_name> CHECK (<validation_expression>),
+--   FOREIGN KEY (<owner_column>) REFERENCES <owner_table>(<owner_key>)
+--     ON DELETE <chosen_delete_behavior>
+-- );
+
+-- CREATE INDEX <index_name> ON public.<table_name> (<query_filter_column>);
+
+-- If clients access PostgreSQL through Supabase, design and test RLS policies
+-- for the actual authenticated role. Never use an always-true ownership rule
+-- for private records. Database owners and privileged service roles may bypass
+-- RLS; explicitly test using the role your application actually uses.
+-- ALTER TABLE public.<table_name> ENABLE ROW LEVEL SECURITY;
+
+-- CREATE POLICY <read_policy_name>
+--   ON public.<table_name> FOR SELECT TO <application_role>
+--   USING (<verified_read_ownership_expression>);
+
+-- CREATE POLICY <insert_policy_name>
+--   ON public.<table_name> FOR INSERT TO <application_role>
+--   WITH CHECK (<verified_insert_ownership_expression>);
+
+-- CREATE POLICY <update_policy_name>
+--   ON public.<table_name> FOR UPDATE TO <application_role>
+--   USING (<verified_existing_record_ownership_expression>)
+--   WITH CHECK (<verified_updated_record_ownership_expression>);
+
+-- CREATE POLICY <delete_policy_name>
+--   ON public.<table_name> FOR DELETE TO <application_role>
+--   USING (<verified_delete_ownership_expression>);
+
+-- COMMIT;
+
+-- Keep synthetic development seed data in your chosen tool's separate seed file.
+-- Do not insert real users, passwords, provider keys, or production records here.
+-- Verify in a disposable database before applying elsewhere:
+-- 1. The migration applies from a clean database and from its expected predecessor.
+-- 2. Invalid, missing, and duplicate values fail as the data contract requires.
+-- 3. Each allowed role can perform only its intended operations.
+-- 4. A second user cannot access or take ownership of another user's records.
+-- 5. Unauthenticated requests fail unless the table is intentionally public.
+-- 6. The documented rollback/recovery steps behave as expected.

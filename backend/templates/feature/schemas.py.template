@@ -1,0 +1,11 @@
+"""Copy to app/schemas/example.py, then rename and adapt to your feature."""
+
+from pydantic import BaseModel, Field
+
+
+class ExampleRequest(BaseModel):
+    text: str = Field(min_length=1, max_length=500)
+
+
+class ExampleResponse(BaseModel):
+    text: str
