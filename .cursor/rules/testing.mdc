@@ -1,0 +1,16 @@
+---
+description: Testing discipline — verify before claiming success
+globs: **/test*/**/*,**/*.{test,spec}.*,**/tests/**/*
+alwaysApply: false
+---
+
+# Testing Rules
+
+- Add or update tests for behavior you change when a harness exists
+- Prefer testing observable behavior over implementation details
+- Cover failure paths for auth, validation, and empty data
+- Reproduce bugs with a failing test when practical, then fix
+- Run the smallest relevant suite; state exactly what you ran
+- Never mark done with failing tests unless explicitly blocked and reported
+
+See `docs/conventions/testing.md`

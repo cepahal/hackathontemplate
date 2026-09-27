@@ -1,0 +1,1 @@
+Intent: form primitives + validation patterns. Reuse before inventing. See docs/conventions/frontend.md.

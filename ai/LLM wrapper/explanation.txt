@@ -1,0 +1,1 @@
+Intent: thin server-side LLM wrapper. Keys never in client. Prompt: prompts/ai/add-llm-wrapper.md.

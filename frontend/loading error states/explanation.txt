@@ -1,0 +1,1 @@
+Intent: shared loading/error/empty states. Required on data views. Prompts: prompts/ui/loading-states.md, error-states.md, empty-states.md.

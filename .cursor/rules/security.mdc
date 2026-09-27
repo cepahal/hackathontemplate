@@ -1,0 +1,18 @@
+---
+description: Security baseline for auth, input, secrets, and AI tools
+alwaysApply: true
+---
+
+# Security Baseline
+
+When touching auth, uploads, user content, secrets, or AI tools:
+
+- Authn ≠ authz — check ownership/roles on every sensitive operation
+- Parameterize queries; sanitize HTML; validate redirects/URLs
+- CSRF protections where cookie sessions apply
+- No secrets in client code, git, or logs
+- SSRF: do not fetch arbitrary user URLs server-side without allowlists
+- File uploads: type/size/path constraints
+- AI: treat model/tool output as untrusted; prevent prompt injection from user content escalating privileges
+
+Full checklist: `docs/workflows/security-review.md`

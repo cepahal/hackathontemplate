@@ -1,0 +1,17 @@
+---
+description: General coding conventions — reuse, minimal diffs, type safety
+alwaysApply: true
+---
+
+# Coding Conventions
+
+- Match existing naming, file layout, and import style
+- Prefer extending shared utilities over copy-paste
+- Keep functions focused; avoid god-objects
+- Do not silence type errors (`any`, `@ts-ignore`, bare `except`) without cause
+- Fail loudly with actionable errors; no empty catch blocks
+- Comments only for non-obvious intent; no narrating comments
+- Config via env/settings modules already used by the project
+- New dependency requires: why, alternatives considered, and blast radius
+
+Full guide: `docs/conventions/coding.md`

@@ -1,0 +1,15 @@
+---
+description: Git hygiene for agents — small diffs, no force, no secrets
+alwaysApply: true
+---
+
+# Git Rules
+
+- Do not commit unless the human asks
+- Keep commits focused; avoid mixing refactors with features
+- Never commit `.env`, keys, credentials, or large binaries
+- Do not amend pushed history or force-push shared branches unless explicitly requested
+- Prefer clear commit messages that explain why
+- Before finishing: review `git diff` for accidental files
+
+See `docs/conventions/git.md`

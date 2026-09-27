@@ -1,0 +1,1 @@
+Intent: marketing/landing surface. Keep first viewport focused; see docs/conventions/ui-ux.md.

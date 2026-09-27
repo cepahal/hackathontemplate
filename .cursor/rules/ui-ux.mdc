@@ -1,0 +1,17 @@
+---
+description: UI/UX polish expectations for demo-quality interfaces
+globs: frontend/**/*,**/*.{tsx,jsx,css,scss}
+alwaysApply: false
+---
+
+# UI / UX
+
+- One clear primary action per view
+- Loading, error, and empty states are required for data views
+- Prefer real product imagery/context over decorative filler when relevant
+- Avoid generic AI-slop aesthetics (overused purple gradients, random pill clusters, empty card grids)
+- Check mobile viewport for the demo path
+- Do not ship broken focus rings or unlabeled inputs
+
+Prompts: `prompts/ui/`
+Workflow: `docs/workflows/ui-review.md`

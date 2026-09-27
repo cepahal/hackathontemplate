@@ -1,0 +1,1 @@
+Intent: Supabase/Postgres schema, RLS, migrations. Prefer additive migrations. Prompt: prompts/database/write-migration.md.

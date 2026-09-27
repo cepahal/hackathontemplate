@@ -1,0 +1,1 @@
+Intent: authn/session/OAuth. Never trust client user ids alone. Debug: prompts/debugging/authentication-debugging.md.

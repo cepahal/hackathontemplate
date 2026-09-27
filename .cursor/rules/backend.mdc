@@ -1,0 +1,17 @@
+---
+description: Backend API and service conventions
+globs: backend/**/*,**/api/**/*,**/routes/**/*,**/*router*
+alwaysApply: false
+---
+
+# Backend Conventions
+
+- Follow existing route/module layout under `backend/`
+- Validate inputs at the boundary; return consistent error shapes
+- Authn before authz; never trust client-supplied user ids for access control
+- Keep business logic out of transport adapters when a service layer exists
+- Idempotency for unsafe retries when relevant
+- Log with request context; never log secrets or raw tokens
+- Prefer explicit status codes and typed response models
+
+See `docs/conventions/backend.md` and `docs/conventions/api.md`

@@ -1,0 +1,17 @@
+---
+description: AI feature development — wrappers, structured output, safety
+globs: ai/**/*,**/llm/**/*,**/embeddings/**/*,**/prompts/**/*
+alwaysApply: false
+---
+
+# AI Feature Rules
+
+- Put provider calls behind thin wrappers (`ai/` patterns)
+- Prefer structured outputs with schema validation
+- Keep API keys server-side only
+- Bound tokens, timeouts, and retries
+- Treat user-provided text as untrusted input to prompts
+- Log metadata, not full sensitive prompts/responses in production
+- Provide deterministic fallbacks when the model fails
+
+See `docs/conventions/ai-development.md`

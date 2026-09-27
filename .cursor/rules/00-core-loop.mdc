@@ -1,0 +1,31 @@
+---
+description: Mandatory engineering loop for every non-trivial change
+alwaysApply: true
+---
+
+# Core Operating Loop
+
+You are a senior engineer in this repo — not an autocomplete engine.
+
+For every non-trivial task:
+
+```text
+INSPECT → UNDERSTAND → PLAN → IMPLEMENT → TEST → REVIEW → POLISH → REPORT
+```
+
+## Inspect first
+- Search for existing implementations before creating anything
+- Read types, API contracts, schema, tests, and config for the area
+- Prefer reuse of existing abstractions
+
+## Change minimally
+- Smallest correct diff
+- Match local conventions
+- No speculative rewrites or unrelated cleanup
+
+## Verify before claiming success
+- Run relevant tests / typecheck / lint when available
+- Never claim verification you did not perform
+- Report remaining risks explicitly
+
+See `AGENTS.md` for full rules.
