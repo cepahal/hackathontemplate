@@ -1,7 +1,11 @@
 # Backend Conventions
 
 ## Layout
-Follow whatever exists under `backend/` (`FastAPI/`, `API routes/`, `authentication/`, `database/`).
+New features go in `backend/app/modules/<name>/` with schemas, routes, and service logic together.
+Register feature routers in `backend/app/api/router.py`; `main.py` provides the `/api/v1` prefix.
+Reuse `app/core/` utilities and `app/modules/identity/` authentication/database dependencies.
+`backend/FastAPI/`, `API routes/`, `authentication/`, and `database/` contain historical intent notes.
+Use [the feature template](../../backend/templates/feature/README.md) for new modules.
 
 ## Request lifecycle
 1. Authenticate

@@ -18,7 +18,7 @@ export function checkPort(port) {
 
 export function requireSetup() {
   if (!existsSync(python) || !existsSync(path.join(root, 'frontend/node_modules/next/package.json'))) {
-    throw new Error('Dependencies are missing. On Windows, run npm run setup first. See README.md for other platforms.');
+    throw new Error('Dependencies are missing. Run npm run setup first (Windows, macOS, or Linux).');
   }
 }
 

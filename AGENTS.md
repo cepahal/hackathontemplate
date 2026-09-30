@@ -39,7 +39,7 @@ Always do these first:
 3. Read relevant types, interfaces, schemas, and API contracts
 4. Inspect database models/migrations if data is involved
 5. Inspect existing tests for the area you will touch
-6. Inspect config/env patterns (`.env.example`, settings modules)
+6. Inspect config/env patterns (`backend/.env.example`, `frontend/.env.example`, settings modules)
 7. Identify naming, folder, and error-handling conventions
 8. Prefer extending existing abstractions over creating parallel ones
 
@@ -104,29 +104,30 @@ Always do these first:
 
 ---
 
-## Stack Awareness (this template)
+## Stack Awareness
 
-This repository is a **hackathon starter** with scaffold areas:
+This repository contains implemented applications, database migrations, tests, and inactive templates.
+Do not treat the application folders as empty scaffolds or introduce a parallel stack.
 
-| Area | Location | Intent |
+| Area | Implementation | Conventions |
 |---|---|---|
-| Frontend | `frontend/` | UI primitives, pages, states |
-| Backend | `backend/` | API, auth, data access |
-| Database | `database/` | Schema / Supabase notes |
-| AI | `ai/` | LLM wrappers, embeddings, structured output |
+| Frontend | Next.js App Router, React, TypeScript, Tailwind | Pages in `frontend/src/app/`, shared UI in `frontend/src/components/`, clients/types in `frontend/src/lib/` |
+| Backend | FastAPI and Pydantic | New features in `backend/app/modules/<name>/`; register routers in `backend/app/api/router.py` |
+| Database/auth | Supabase Postgres, Auth, RLS and Realtime | SQL in `database/migrations/`; hosted access tests in `database/tests/` |
+| AI | Provider adapters, RAG and bounded agents | Runtime code in `backend/app/modules/ai/`; `ai/` contains documentation and historical intent notes |
 
-Treat scaffold folders and `explanation.txt` files as **intent markers**, not finished code.
-When a real app lands (Next.js, FastAPI, etc.), follow **that** app's conventions and update `docs/architecture/overview.md`.
+Original `explanation.txt` folders are historical notes, not locations for new implementation.
+Copy feature templates into `app/modules/<name>/` using `backend/templates/feature/README.md`.
+User database operations preserve bearer-token RLS; service-role credentials are backend-only.
 
-Default lean stack assumptions when not yet chosen:
+Run `npm run setup`, `npm run preflight`, and `npm run check` from the root on Windows,
+macOS, or Linux (`npm.cmd` also works on Windows). No command starts a preview automatically.
+The actual config templates are `backend/.env.example` and `frontend/.env.example`; root
+`.env.example` is only a pointer. Never print credentials or put server secrets in browser variables.
 
-- **Frontend:** React / Next.js + TypeScript
-- **Backend:** FastAPI (Python) or Node route handlers
-- **Database:** Supabase / Postgres
-- **Auth:** Provider-based (e.g. Google OAuth via Supabase/Auth.js)
-- **AI:** Thin wrappers around model APIs; never put secrets in client code
-
-Adapt to whatever is actually in the repo. Evidence > assumptions.
+Offline checks do not prove hosted services work. Start live acceptance with the two-account
+`database/tests/rls.sql` procedure in `database/README.md`. Track the remaining gates in
+`docs/DELIVERY.md`, and keep `docs/architecture/overview.md` aligned with implemented code.
 
 ---
 

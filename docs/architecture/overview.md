@@ -5,7 +5,7 @@
 ## Purpose
 
 Reusable hackathon starter + **AI Coding Agent Operating System**.
-The application starter now implements Next.js, FastAPI and Supabase modules. Original scaffold folders remain intent markers alongside the implementation. Offline checks pass; hosted service acceptance is tracked separately in [the delivery record](../DELIVERY.md).
+The application starter implements Next.js, FastAPI and Supabase modules. Original `explanation.txt` folders contain historical intent notes; new implementation belongs in the application paths below. Dated offline evidence and pending hosted acceptance are recorded separately in [the delivery record](../DELIVERY.md).
 
 ## Implemented application
 
@@ -15,7 +15,8 @@ The application starter now implements Next.js, FastAPI and Supabase modules. Or
 - `database/migrations/`: core ownership/RLS/vector schema and transactional billing event persistence.
 - `database/tests/`: hosted two-account RLS and billing verification scripts.
 - `scripts/check.mjs`: frontend lint/types/tests/build and backend Ruff/pytest/dependency checks.
-- `.github/workflows/checks.yml`: Linux CI. Hosting configurations target Vercel plus Railway or Render.
+- `scripts/setup.mjs` and `scripts/preflight.mjs`: shared Windows/macOS/Linux setup and local prerequisite checks, exposed through root npm commands.
+- `.github/workflows/checks.yml`: application CI and setup smoke tests on Windows, macOS, and Linux. Hosting configurations target Vercel plus Railway or Render.
 
 User requests validate Supabase bearer identity and preserve user-JWT RLS. Only billing webhook processing uses a backend service-role credential. Provider keys remain server-side. See [deployment](../DEPLOYMENT.md), [integrations](../INTEGRATIONS.md), and [realtime](../REALTIME.md) for account setup and operational limits.
 
@@ -27,21 +28,34 @@ AGENTS.md                 # Master instructions for coding agents
 docs/                     # Conventions + workflows
 prompts/                  # Reusable task prompts
 scripts/                  # Review / validate / hackathon helpers
-frontend/                 # UI scaffolds (navbar, forms, dashboard, …)
-backend/                  # API / auth / data-access scaffolds
-database/                 # Schema / Supabase notes
-ai/                       # LLM wrapper / embeddings / structured output scaffolds
+frontend/src/             # Next.js pages, components, HTTP/SSE/Supabase clients
+backend/app/              # FastAPI entrypoint, core utilities and feature modules
+database/                 # SQL migrations, seed and hosted verification scripts
+ai/                       # AI documentation; runtime code is in backend/app/modules/ai/
+templates/                # Inactive copy-and-adapt feature/integration starters
 ```
 
-## Default stack (when not yet chosen)
+## Implemented stack
 
-| Layer | Default lean choice | Notes |
+| Layer | Implementation | Notes |
 |---|---|---|
-| Frontend | React / Next.js + TypeScript | Prefer existing components |
-| Backend | FastAPI or Next route handlers | Match what the team actually adds |
-| DB | Supabase / Postgres | Migrations over ad-hoc SQL in app code |
-| Auth | OAuth (e.g. Google) via provider | Never roll crypto yourself in a hackathon |
-| AI | Server-side wrappers | Keys never in the client |
+| Frontend | Next.js App Router, React, TypeScript, Tailwind | Reuse `frontend/src/components/` and `frontend/src/lib/` |
+| Backend | FastAPI, Pydantic, HTTPX | New features use `app/modules/<name>/`; register their router in `app/api/router.py` |
+| DB | Supabase Postgres with RLS and pgvector | Versioned SQL in `database/migrations/`; user requests carry their JWT |
+| Auth | Supabase email/password and Google | Backend validates identity with Supabase; hosted flow remains an acceptance gate |
+| AI | OpenAI, Anthropic and Gemini adapters | Server-side provider calls; supported capabilities are documented in `ai/README.md` |
+
+## Configuration and verification boundaries
+
+`backend/.env.example` documents server settings; `frontend/.env.example` documents public browser
+settings. Setup copies them to `backend/.env` and `frontend/.env.local` without overwriting either.
+There is no root application environment file. Feature-specific settings live alongside their module;
+shared settings live in `backend/app/core/config.py`.
+
+`npm run preflight` checks local prerequisites without printing values or calling providers.
+`npm run check` runs offline application checks. Neither proves hosted RLS or real provider behavior.
+The first hosted gate is `database/tests/rls.sql` with two distinct real Supabase test accounts, followed
+by the Auth/UI and provider workflows described in `database/README.md` and `docs/DELIVERY.md`.
 
 ## Principles
 
