@@ -1,4 +1,4 @@
-"""Copy to app/services/example.py. Keep application logic independent of HTTP."""
+"""Copy to app/modules/example/service.py. Keep application logic independent of HTTP."""
 
 
 def process_text(text: str) -> str:

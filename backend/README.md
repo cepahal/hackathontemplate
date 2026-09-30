@@ -1,16 +1,26 @@
 # FastAPI foundation
 
-Requires Python 3.11 or newer. From this directory on Windows:
+Requires Python 3.11 or newer. Recommended setup from the repository root on Windows, macOS, or Linux:
+
+```sh
+npm run setup
+npm run preflight
+npm run check
+```
+
+These commands install dependencies and verify offline behavior without starting a preview.
+For backend-only manual setup on Windows, from this directory:
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install --no-cache-dir -r requirements-dev.txt
-Copy-Item .env.example .env
-.\.venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 ```
 
 Copy `.env.example` only when creating your configuration; keep an existing `.env` when reinstalling.
-On macOS/Linux, replace `.\.venv\Scripts\python.exe` with `.venv/bin/python`.
+On macOS/Linux, use `python3 -m venv .venv`, then `.venv/bin/python -m pip install --no-cache-dir -r requirements-dev.txt`, and create `.env` with `test -f .env || cp .env.example .env`.
+
+To explicitly start an optional development server, run `npm run dev:backend` from the root.
 
 - Health: <http://localhost:8000/health>
 - Interactive API reference: <http://localhost:8000/docs>
@@ -23,7 +33,7 @@ On macOS/Linux, replace `.\.venv\Scripts\python.exe` with `.venv/bin/python`.
 ```
 
 The feature modules connect to Supabase and optional external providers when configured. Health checks only process liveness, not those services. See the root README and `docs/DELIVERY.md` for the nine-area verification process.
-Feature endpoints should be registered in `app/api/router.py`; `main.py` mounts that router under
+New feature code belongs in `app/modules/<name>/`. Feature endpoints are registered in `app/api/router.py`; `main.py` mounts that router under
 `/api/v1`. Copy the inactive [feature template](templates/feature/README.md) when adding a feature.
 
 ## Configuration

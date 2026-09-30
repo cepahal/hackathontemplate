@@ -1,9 +1,9 @@
-"""Copy to app/api/routes/example.py; then register in app/api/router.py."""
+"""Copy to app/modules/example/routes.py; then register in app/api/router.py."""
 
 from fastapi import APIRouter
 
-from app.schemas.example import ExampleRequest, ExampleResponse
-from app.services.example import process_text
+from app.modules.example.schemas import ExampleRequest, ExampleResponse
+from app.modules.example.service import process_text
 
 router = APIRouter(prefix="/examples", tags=["examples"])
 

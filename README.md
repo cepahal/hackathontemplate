@@ -5,13 +5,13 @@ Reusable Next.js / TypeScript / Tailwind frontend, FastAPI API, and Supabase dat
 ## Begin here
 
 1. Read the [delivery record](docs/DELIVERY.md) for implemented behavior and remaining checks.
-2. Run `npm.cmd run setup` from this folder. Requires Node 22.19+ and Python 3.11+; setup also discovers Codex's bundled Python. Existing environment files are preserved.
+2. Run `npm run setup` from this folder on Windows, macOS, or Linux (`npm.cmd run setup` also works on Windows). Requires Node 22.19+ and Python 3.11+ with `venv` support. Setup creates `backend/.venv`, installs both apps, and preserves existing environment files. To select Python, run `npm run setup -- --python /path/to/python` (quote paths containing spaces).
 3. Follow [database setup](database/README.md): create Supabase, apply migrations in order, create test accounts, and run the two-account access-control verification before storing real data.
 4. Fill `frontend/.env.local` and `backend/.env` using their examples. Never put service-role or provider secrets in `NEXT_PUBLIC_` variables.
-5. Run `npm.cmd run check` for lint, types, production build and offline tests. It does not start a preview.
+5. Run `npm run preflight` for local prerequisites and configuration warnings, then `npm run check` for lint, types, production build and offline tests. Neither starts a preview or verifies hosted services.
 6. Follow [deployment instructions](docs/DEPLOYMENT.md) for Vercel and Railway/Render when your accounts are ready.
 
-No preview starts automatically. Optional development commands are `npm.cmd run dev`, `dev:frontend`, and `dev:backend`; they bind to loopback. Stop development servers before setup/checks. Current delivery uses files, builds and in-process tests with no application server left running.
+No preview starts automatically. Optional development commands are `npm run dev`, `npm run dev:frontend`, and `npm run dev:backend`; they bind to loopback. Stop development servers before setup/checks. Current delivery uses files, builds and in-process tests with no application server left running.
 
 ## Nine areas
 
@@ -47,7 +47,9 @@ Detailed references: [database](database/README.md), [identity](backend/app/modu
 
 Frontend versions are locked in `frontend/package-lock.json`. Backend declarations are in `backend/pyproject.toml`, with resolved constraints in `backend/requirements.lock`. Setup uses a project-local npm cache, disables pip's global cache, and keeps TLS verification enabled.
 
-On macOS/Linux, create `backend/.venv`, install `requirements-dev.txt` from the backend directory, run `npm --prefix frontend ci`, and copy example environments without replacing existing files. `npm run check` supports both Windows and POSIX virtualenv paths.
+The setup, preflight and check commands support both Windows and POSIX virtualenv paths. Python discovery tries `python3`/`python` on macOS/Linux and `python`/`python3`/`py -3` on Windows, followed by the Windows Codex bundled runtime when present. An existing virtualenv is reused and must already run Python 3.11+. On systems where `venv` is packaged separately, install the matching Python venv package first.
+
+Only `backend/.env` and `frontend/.env.local` are application configuration files, created from their respective `.env.example` files. The root `.env.example` is an explanatory pointer; do not copy it into a root `.env`. A green preflight means local prerequisites passed, not that credentials, Auth, RLS, or external APIs have been tested. Start hosted verification with [the two-account RLS procedure](database/README.md#first-hosted-gate-two-account-rls).
 
 
 ## Team instructions and training
@@ -58,7 +60,7 @@ Fork this during events. Then treat coding agents as **senior engineering teamma
 
 ## What this repository is
 
-1. **Product scaffolds** — `frontend/`, `backend/`, `database/`, `ai/` (intent folders for common hackathon building blocks)
+1. **Implemented starter** — Next.js in `frontend/src/`, FastAPI feature modules in `backend/app/modules/`, Supabase migrations/tests in `database/`, and AI integration documentation in `ai/`. Historical intent folders coexist with this code; they are not the application architecture.
 2. **AI Operating System** — permanent instructions, rules, prompts, and workflows so agents behave consistently across stacks and events
 
 ## Quick start for agents
@@ -77,8 +79,8 @@ Fork this during events. Then treat coding agents as **senior engineering teamma
 # after a big change: bundle a diff for AI review
 ./scripts/review/ai-code-review.sh
 
-# best-effort environment sanity
-./scripts/validate/preflight.sh
+# local runtime/dependency/config checks (Windows, macOS, Linux)
+npm run preflight
 ```
 
 ## System map
@@ -96,7 +98,10 @@ scripts/
   review/                 AI review bundle + checklist
   validate/               Preflight
   hackathon/              Time-band mode setter
-frontend|backend|database|ai/   Product scaffolds
+frontend/                 Next.js UI and browser clients
+backend/                  FastAPI API and feature modules
+database/                 Supabase migrations and hosted SQL tests
+ai/                       AI integration documentation
 ```
 
 ## Hackathon priority

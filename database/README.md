@@ -94,8 +94,24 @@ disconnect. Account for that provider behavior when designing immediate presence
 The backend has offline mocked tests for Auth validation, ownership propagation, CRUD contracts,
 input validation, and upstream failures. Those tests cannot prove a remote database's RLS policy.
 
-After applying the migrations to a test project, create two real test accounts, replace `user_a`
-and `user_b` in `tests/rls.sql`, and run it as project owner. It checks owner reads, cross-owner
+### First hosted gate: two-account RLS
+
+1. Use a dedicated Supabase test project and apply the migrations in filename order as described above.
+2. Create two distinct test users in Supabase Auth (not just rows in `public.profiles`). Copy their
+   Auth user UUIDs from the dashboard. No service-role key, password, or access token belongs in this test.
+3. Open a new SQL editor query as the project owner. Paste all of `database/tests/rls.sql`, including
+   `begin;` and the final `rollback;`. In this query only, replace the `user_a` and `user_b` placeholder
+   UUIDs. Keep the repository's reusable placeholders unchanged.
+4. Run the complete query. Any `FAILED:` exception or other SQL error is a failed gate. If your client
+   keeps a failed transaction open, run `rollback;` before retrying. Fix the cause; do not bypass a check.
+5. Require successful execution of the full script; where notices are exposed, expect
+   `RLS verification passed. Test records will now be rolled back.` The final rollback removes the
+   verification records, while the two previously created Auth accounts remain available for UI tests.
+6. Record the date, tested Git revision, migration filenames, pass/fail, and any redacted failure in
+   [the hosted verification record](verification.md). Do not mark other service gates passed based on this result.
+
+The script executes user operations under the `authenticated` role with separate JWT claims; simply
+querying as the project owner would bypass RLS and is not an isolation test. It checks owner reads, cross-owner
 mutations, owner transfer, role escalation, cross-owner foreign keys, retrieval isolation, and
 notification column permissions, viewer/editor rights, owner-only membership changes, and member
 removal. The script rolls back all verification data.

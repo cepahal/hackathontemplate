@@ -1,4 +1,4 @@
-"""Copy to app/schemas/example.py, then rename and adapt to your feature."""
+"""Copy to app/modules/example/schemas.py, then rename and adapt to your feature."""
 
 from pydantic import BaseModel, Field
 

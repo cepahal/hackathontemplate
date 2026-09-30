@@ -96,6 +96,15 @@ Sequential offline review completed on 2026-09-27. Final root command `npm.cmd r
 | 8 | 28 billing tests; hosted duplicate/order/RLS SQL prepared | Execute SQL and Stripe test-mode lifecycle |
 | 9 | 19 realtime/vision tests; cancellation-safe disconnect cleanup; private notification channels | Two-client hosted workflow, provider vision quality and channel authorization |
 
-Counts overlap between areas 1/3 and shared frontend checks; total unique backend cases are 145, not a sum of repeated gates. Node emits a harmless module-type detection warning during frontend tests. Docker/PostgreSQL command-line runtimes were not available, and no Supabase account was configured. No hosted migrations, OAuth callbacks, real provider requests, payments, browser preview, or production release are marked verified. No Git commit or GitHub push has been made.
+Counts overlap between areas 1/3 and shared frontend checks; total unique backend cases are 145, not a sum of repeated gates. Node emits a harmless module-type detection warning during frontend tests. Docker/PostgreSQL command-line runtimes were not available, and no Supabase account was configured. No hosted migrations, OAuth callbacks, real provider requests, payments, browser preview, or production release are marked verified. The starter was subsequently published to GitHub and merged into `main` through PR #2 (`7e44a25`).
+
+### 2026-09-29 maintenance verification
+
+- Fresh Windows dependency setup completed using the shared `npm run setup` implementation and Python 3.12. The setup created both application environment files without starting a preview.
+- `npm run preflight` and its Bash compatibility wrapper passed, with expected warnings for unconfigured Supabase settings.
+- `npm run check` exited 0: 9 setup/preflight tests, frontend ESLint/TypeScript/7 tests/production build, backend Ruff lint/format/145 pytest cases, and `pip check`.
+- A temporary package copied from the backend feature templates imported correctly, registered `POST /api/v1/examples`, returned trimmed text, and rejected missing, empty, and oversized inputs through in-process HTTP tests.
+- CI now runs fresh setup, preflight, and a setup rerun with byte-for-byte environment preservation checks on Windows, macOS, and Linux. Check the maintenance PR for the actual runner results; local Windows evidence alone does not establish macOS/Linux success.
+- Hosted verification remains **NOT RUN**. Start with the two-account RLS procedure in `database/README.md` and record actual outcomes in `database/verification.md`.
 
 The interrupted parallel work was retained and reviewed one area at a time. This record is an acceptance boundary, not a production-readiness certificate. Use [deployment](DEPLOYMENT.md), [integrations](INTEGRATIONS.md), [realtime](REALTIME.md), and the database verification scripts for the remaining setup-dependent checks.
