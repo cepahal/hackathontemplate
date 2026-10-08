@@ -1,12 +1,12 @@
 ---
 description: Frontend UI conventions — reuse, states, accessibility
-globs: frontend/**/*.{ts,tsx,js,jsx,css,scss},**/*.{tsx,jsx},**/components/**/*
+globs: finalfrontentbackend/frontendFINAL/**/*.{ts,tsx,js,jsx,css,scss},**/*.{tsx,jsx},**/components/**/*
 alwaysApply: false
 ---
 
 # Frontend Conventions
 
-- Search `frontend/` (and app component dirs) before creating UI primitives
+- Search `finalfrontentbackend/frontendFINAL/src/components/` before creating UI primitives
 - Reuse buttons, forms, cards, modals, navbar, dashboard patterns
 - Every interactive view needs loading, error, and empty states
 - Prefer composition over one-off styled duplicates

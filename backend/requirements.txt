@@ -1,3 +1,0 @@
-# Install the package using the versions verified in the local development environment.
--c requirements.lock
--e .
