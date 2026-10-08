@@ -23,12 +23,20 @@ export default function WelcomePage() {
           <Command className="size-6 text-primary" />
           launchpad.
         </Link>
-        <Button asChild variant="outline">
-          <Link href="/login">
-            Sign in
-            <ArrowRight />
+        <div className="flex items-center gap-3">
+          <Link
+            href="/ui"
+            className="inline-flex min-h-11 items-center text-sm font-medium hover:underline"
+          >
+            UI library
           </Link>
-        </Button>
+          <Button asChild variant="outline">
+            <Link href="/login">
+              Sign in
+              <ArrowRight />
+            </Link>
+          </Button>
+        </div>
       </header>
       <main>
         <section className="hero-grid mx-4 rounded-3xl border border-[#dfe7d6] bg-[#eaf0e1] px-6 py-20 text-center sm:py-28">

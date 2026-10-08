@@ -7,14 +7,9 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import {
-  AlertCircle,
-  CheckCircle2,
-  Inbox,
-  LoaderCircle,
-  X,
-} from "lucide-react";
+import { AlertCircle, CheckCircle2, Inbox, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 
 export function ErrorNotice({
   message,
@@ -44,11 +39,8 @@ export function ErrorNotice({
 }
 export function Loading({ label = "Loading…" }: { label?: string }) {
   return (
-    <div
-      role="status"
-      className="flex items-center justify-center gap-3 p-12 text-sm text-muted-foreground"
-    >
-      <LoaderCircle className="size-5 animate-spin" />
+    <div className="flex items-center justify-center gap-3 p-12 text-sm text-muted-foreground">
+      <Spinner label={label} />
       {label}
     </div>
   );

@@ -46,11 +46,11 @@ The user has no Supabase project yet and requested setup/verification steps. Hos
 
 ## 6. UI design system
 
-**Process:** adapt landing (`/welcome`), workspace (`/`) or assistant (`/chat`). Reuse forms, cards, buttons, tables, dialogs, tabs, toasts, chat and upload controls.
+**Process:** adapt landing (`/welcome`), workspace (`/`) or assistant (`/chat`). Reuse forms, cards, buttons, tables, dialogs, tabs, toasts, chat and upload controls. Explore the public `/ui` gallery and the native `mobile/` app; see `UI_LIBRARY.md` for navbar/sidebar/footer shells, cards and loading states on both platforms.
 
 **Offline gate:** lint/types/build and browser streaming-parser tests; inspect labels, focus, keyboard controls, mobile and reduced-motion styles; no fabricated service success. Command/Control+K navigation and a reusable accessible bar chart are included.
 
-**Live gate:** keyboard/touch walkthrough, narrow/wide screens, dialog focus restoration, screen-reader labels, live workflows and disconnected states. Visual browser verification awaits a hosting choice.
+**Live gate:** authenticated workflows and disconnected states; native iPhone/iPad VoiceOver, Dynamic Type, rotation and safe areas. The local gallery's browser checks are separate evidence from hosted authenticated acceptance and native device execution.
 
 ## 7. External API framework
 
@@ -108,3 +108,15 @@ Counts overlap between areas 1/3 and shared frontend checks; total unique backen
 - Hosted verification remains **NOT RUN**. Start with the two-account RLS procedure in `database/README.md` and record actual outcomes in `database/verification.md`.
 
 The interrupted parallel work was retained and reviewed one area at a time. This record is an acceptance boundary, not a production-readiness certificate. Use [deployment](DEPLOYMENT.md), [integrations](INTEGRATIONS.md), [realtime](REALTIME.md), and the database verification scripts for the remaining setup-dependent checks.
+
+### 2026-10-07 — Web and native iOS UI library
+
+- Extended the existing Tailwind/shadcn-style web UI with configurable app-shell, navbar, sidebar/mobile drawer, footer, card-grid and spinner components. The authenticated workspace reuses the shell; all existing panels and `AuthGate` remain in place.
+- Added a public interactive `/ui` gallery and a separately version-locked Expo Router/React Native app under `mobile/`, with equivalent layout/card/state galleries, safe-area handling and bottom tabs. Native layout components accept custom brands, navigation items, actions and footers.
+- Fixed text contrast, dialog focus return, decorative native tab icons and small-phone tab-label clipping. Native spinners honor reduced motion.
+- Web ESLint, TypeScript, 7 existing frontend tests and Next.js production build passed. The 9 root setup/preflight tests also passed. Backend tests were not rerun for this UI-only change.
+- Mobile clean `npm ci`, lint, TypeScript, static web export and iOS Hermes/JavaScript export passed. Expo Doctor passed 21/21 checks.
+- All 17 Playwright checks passed in the final run: desktop/phone web navigation, accessibility scans, focus return, feedback controls, skip link and reduced motion; native-web phone navigation/states, tablet grid and small-phone label visibility. Screenshots were visually reviewed. Temporary preview servers stopped afterward.
+- Added reproducible commands, examples and contracts in `UI_LIBRARY.md`, plus `.github/workflows/ui-checks.yml` for native bundle and browser checks. Hosted CI outcomes are verified separately after push.
+
+Native iPhone/iPad runtime, VoiceOver/Dynamic Type, Apple signing and App Store distribution are **NOT RUN**. An iOS bundle export is not a signed native binary. The mobile dependency audit reported unresolved high/moderate upstream advisories in the Expo/React Native dependency tree (including braces, node-forge and uuid); npm offered no compatible fixes. SDK-compatible versions remain locked; review upstream fixes before production distribution. No real authentication/provider flow, hosted database change, or cloud deployment was performed for this UI library delivery.

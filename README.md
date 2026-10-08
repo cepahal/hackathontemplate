@@ -13,6 +13,8 @@ Reusable Next.js / TypeScript / Tailwind frontend, FastAPI API, and Supabase dat
 
 No preview starts automatically. Optional development commands are `npm run dev`, `npm run dev:frontend`, and `npm run dev:backend`; they bind to loopback. Stop development servers before setup/checks. Current delivery uses files, builds and in-process tests with no application server left running.
 
+For the UI component library, open `/ui` in the website. Run `npm run setup:mobile` then `npm run dev:mobile` to open the native iOS starter in Expo Go. Mobile setup is separate; the mobile development server uses LAN to connect a physical phone. Both platforms include navbar, sidebar/drawer, footer, cards and loading states. See [UI library guide](docs/UI_LIBRARY.md) and [mobile setup](mobile/README.md).
+
 ## Nine areas
 
 | # | Area | Implementation |
@@ -22,7 +24,7 @@ No preview starts automatically. Optional development commands are `npm run dev`
 | 3 | Authentication + security | Email/password, Google, sessions, validated identity and roles |
 | 4 | AI infrastructure | OpenAI/Anthropic/Gemini text, SSE, structured responses, vision; OpenAI/Gemini embeddings |
 | 5 | Agents + RAG | Text ingestion, retrieval/citations, persisted bounded agents, approval-gated writes |
-| 6 | UI system | Reusable components; workspace, landing and chat layouts |
+| 6 | UI system | Reusable web/native components; navbar, sidebar, footer, cards, spinners and galleries |
 | 7 | External APIs | GitHub, Maps, Discord, Slack, Twilio, Spotify and YouTube adapters |
 | 8 | Payments + events | Stripe checkout/portal, subscription/order state, signed deduplicated webhooks |
 | 9 | Multimodal + realtime | Image analysis/OCR prompts, text upload, notifications, private presence and bounded shared state |
@@ -33,6 +35,7 @@ Missing configuration produces setup errors rather than simulated success. This 
 
 - `frontend/src/app/`: workspace, login, welcome, chat and foundation pages.
 - `frontend/src/components/`: panels and shared UI; `frontend/src/lib/`: authenticated HTTP/SSE and Supabase clients.
+- `mobile/src/`: Expo Router native screens and reusable mobile UI; separately installed and version-locked.
 - `backend/app/modules/`: identity, AI, integrations, commerce, realtime.
 - `backend/app/core/`: configuration, errors, request limits; `backend/tests/`: mocked-provider behavioral tests.
 - `database/migrations/`: core/billing SQL; `database/tests/`: hosted RLS verification.

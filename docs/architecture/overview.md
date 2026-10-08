@@ -11,6 +11,8 @@ The application starter implements Next.js, FastAPI and Supabase modules. Origin
 
 - `frontend/src/app/`: workspace, login, landing, chat and health-diagnostic routes.
 - `frontend/src/components/`: project CRUD, AI/RAG/vision, agents, billing, integrations and collaboration panels; reusable UI.
+- `frontend/src/components/layout/`: reusable web shell, navbar, sidebar/mobile drawer, footer and responsive grid; public gallery at `/ui`.
+- `mobile/src/`: Expo Router + React Native UI starter with matching navigation, cards and feedback states. It demonstrates local UI, with its own dependency lockfile; no native backend/auth client is introduced.
 - `backend/app/modules/`: identity, AI, integrations, commerce and realtime APIs under `/api/v1`.
 - `database/migrations/`: core ownership/RLS/vector schema and transactional billing event persistence.
 - `database/tests/`: hosted two-account RLS and billing verification scripts.
@@ -29,6 +31,7 @@ docs/                     # Conventions + workflows
 prompts/                  # Reusable task prompts
 scripts/                  # Review / validate / hackathon helpers
 frontend/src/             # Next.js pages, components, HTTP/SSE/Supabase clients
+mobile/src/               # Native Expo Router screens and mobile UI components
 backend/app/              # FastAPI entrypoint, core utilities and feature modules
 database/                 # SQL migrations, seed and hosted verification scripts
 ai/                       # AI documentation; runtime code is in backend/app/modules/ai/
@@ -40,6 +43,7 @@ templates/                # Inactive copy-and-adapt feature/integration starters
 | Layer | Implementation | Notes |
 |---|---|---|
 | Frontend | Next.js App Router, React, TypeScript, Tailwind | Reuse `frontend/src/components/` and `frontend/src/lib/` |
+| Mobile UI | Expo Router, React Native, TypeScript | Reuse `mobile/src/components/`; separate install, matching visual tokens |
 | Backend | FastAPI, Pydantic, HTTPX | New features use `app/modules/<name>/`; register their router in `app/api/router.py` |
 | DB | Supabase Postgres with RLS and pgvector | Versioned SQL in `database/migrations/`; user requests carry their JWT |
 | Auth | Supabase email/password and Google | Backend validates identity with Supabase; hosted flow remains an acceptance gate |

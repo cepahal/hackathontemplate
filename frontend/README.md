@@ -11,12 +11,15 @@ Configure the HTTPS API origin, Supabase project URL and public anon/publishable
 - `/chat`: focused assistant layout using the same authenticated workspace components.
 - `/login`: email/password, signup/confirmation and Google login.
 - `/foundation`: API health diagnostic.
+- `/ui`: public interactive UI library (no credentials required), with layout shells, cards and feedback examples.
 
 `AuthGate` validates sessions through the backend. It invalidates pending verification on logout/unmount and rechecks refreshed user state. Backend authorization remains authoritative; rendering a page does not grant API access.
 
 ## Shared UI
 
 The components under `src/components/ui/` include shadcn-style buttons/cards/badges, Radix dialogs/tabs, labeled fields, loading/error/empty feedback, toasts, a command menu and bar chart. Dialogs use Radix focus management. Navigate with Ctrl/Command+K, search, then Tab/arrows/Enter; Escape closes the menu. Charts include readable values and labels, with decorative bars hidden from assistive technologies.
+
+`src/components/layout/` adds the reusable `AppShell`, navbar, sidebar/mobile drawer, footer and card grid. The authenticated workspace composes these same shells. See [UI library guide](../docs/UI_LIBRARY.md) for props, copyable examples and native mobile counterparts. `npm run test:ui` builds web/native browser previews and runs desktop/phone interaction and accessibility checks; install `mobile/` dependencies and Playwright Chromium first.
 
 `BarChart` accepts `{title, data: [{label, value}]}`. Labels should be unique and values finite/nonnegative. The project chart explicitly describes its current-page scope; it does not claim a whole-account count. `CommandMenu` accepts items and an `onSelect` callback; reuse it with your own navigation.
 

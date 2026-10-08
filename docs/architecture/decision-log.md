@@ -14,6 +14,12 @@ Consequences:
 
 ## Decisions
 
+### 2026-10-07 — Reusable web shells and native iOS UI
+Status: accepted
+Context: The UI library must speed up both website and native iOS work; existing web components should remain useful.
+Decision: Extend the existing Tailwind/shadcn-style web UI with reusable shells, and add Expo Router/React Native under `mobile/`. Keep separate lockfiles so each app retains framework-compatible React versions. Match visual tokens and component behavior across platforms.
+Consequences: The web workspace reuses `AppShell`, including a focus-managed phone drawer. The mobile gallery is a UI starter with safe areas and bottom navigation, not a second backend/auth implementation. Native device/signing acceptance remains separate from bundle/browser checks. Mobile setup and CI are explicit opt-in commands.
+
 ### Bootstrap — AI Agent Operating System
 Status: accepted for the agent OS; product-scaffold layout superseded below
 Context: Need reusable instructions so coding agents behave like senior engineers across hackathons.  
