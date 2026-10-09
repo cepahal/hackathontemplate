@@ -97,7 +97,7 @@ export default function ExamplePage() {
 
 `AppShell` accepts `title`, `description`, `actions`, `sidebar`, `userRole`, `footer`, `mainId`, `fullWidth`, `className`, and `children`. Without a custom `sidebar`, it uses the existing role-aware `Sidebar`. Its `footer` is page content; the root layout's `Footer` remains the site footer.
 
-`SidebarPanel` accepts `title`, `children`, `footer`, and `mainId`. It presents an aside at 1024px and wider and a button/drawer below that breakpoint. Children may be links or local selection buttons. Activating one closes the phone drawer. Keep `mainId` aligned with the surrounding shell if you customize it so focus has a visible destination when resizing to desktop.
+`SidebarPanel` accepts `title`, `children`, `footer`, and `mainId`. It presents an aside at 1024px and wider and a button/drawer below that breakpoint. Children may be links or local selection buttons. Activating one closes the phone drawer. Keep the default `main-content` ID unless you also update the shell, drawer, and root skip link together, so focus has a visible destination when resizing to desktop.
 
 `Card` preserves its `title`, `description`, `actions`, `footer`, and section HTML props. `variant` is `default`, `muted`, or `elevated`. Headers, actions, and footers wrap on narrow screens. `CardGrid` accepts `columns={1 | 2 | 3 | 4}`, defaults to `3`, and starts with one column on phones.
 
@@ -207,4 +207,4 @@ npm run export:ios
 
 The [UI workflow](../../.github/workflows/ui-checks.yml) has separate canonical-web and native jobs. The web job runs the browser suite; the native job checks lint, types, and web/iOS exports. These commands describe the checks to run, not a claim that a particular revision has passed.
 
-An iOS export is a JavaScript/Hermes bundle, not a signed `.ipa`, simulator run, or physical-device test. Browser phone emulation also does not validate iPhone Safari. Before native release, test VoiceOver, Dynamic Type, safe areas, rotation, navigation, and real network states on devices; signing and distribution remain separate. Hosted authentication, RLS, and provider acceptance remain separate from the UI suite. See the repository [delivery record](../../docs/DELIVERY.md) for recorded validation and remaining gates.
+An iOS export is a JavaScript/Hermes bundle, not a signed `.ipa`, simulator run, or physical-device test. Browser phone emulation also does not validate iPhone Safari. Before native release, test VoiceOver, Dynamic Type, safe areas, rotation, navigation, and real network states on devices; signing and distribution remain separate. Hosted authentication, RLS, and provider acceptance remain separate from the UI suite. See the [UI verification record](UI_VERIFICATION.md) for recorded validation and remaining gates.

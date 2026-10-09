@@ -67,4 +67,4 @@ The [UI workflow](../.github/workflows/ui-checks.yml) runs native lint, types, a
 
 The iOS export emits a JavaScript/Hermes bundle under `.artifacts/ios/`; it does not produce a signed `.ipa` or run an Apple simulator/device. Local Apple builds require macOS and Xcode. Physical iPhone/iPad behavior, VoiceOver, Dynamic Type, safe areas, rotation, signing, and distribution remain separate acceptance steps. An Expo web preview is useful for layout checks but does not establish native runtime behavior.
 
-See the [canonical UI guide](../finalfrontentbackend/docs/UI_LIBRARY.md) for web component contracts and verification boundaries, and [delivery notes](../docs/DELIVERY.md) for recorded checks and outstanding dependency advisories.
+See the [canonical UI guide](../finalfrontentbackend/docs/UI_LIBRARY.md) for web component contracts and verification boundaries, and the [UI verification record](../finalfrontentbackend/docs/UI_VERIFICATION.md) for recorded checks and remaining acceptance steps.
