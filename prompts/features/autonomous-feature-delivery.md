@@ -13,7 +13,7 @@ Example: `Add Google authentication and a dashboard showing the user's activity`
 - Map repo structure
 - Search for auth, dashboard, activity, session, user models
 - Read existing API/DB/UI patterns and tests
-- Inventory reusable components under `frontend/`, `backend/`, `database/`, `ai/`
+- Inventory reusable code under `finalfrontentbackend/frontendFINAL/`, `backendFINAL/`, `databaseFINAL/`
 
 ### 2. UNDERSTAND
 Summarize: current architecture, what already exists, constraints, unknowns.

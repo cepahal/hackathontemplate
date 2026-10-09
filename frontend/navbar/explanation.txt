@@ -1,1 +1,0 @@
-Intent: shared navigation. Before creating a new navbar, search the app for an existing one. UI prompts: prompts/ui/, prompts/frontend/.

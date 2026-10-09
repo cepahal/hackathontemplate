@@ -1,8 +1,10 @@
 # Deployment Workflow
 
+App-specific steps (Vercel, Railway/Render, Supabase): `finalfrontentbackend/docs/DEPLOYMENT.md`.
+
 ## Production readiness checklist
 - [ ] Build succeeds cleanly
-- [ ] Required env vars documented in `backend/.env.example` and `frontend/.env.example` (no secrets committed)
+- [ ] Required env vars documented in `finalfrontentbackend/backendFINAL/.env.example` and `frontendFINAL/.env.example` (no secrets committed)
 - [ ] Health check / ping route works
 - [ ] Auth callback URLs match deployed domains
 - [ ] DB migrations applied (or noted as manual step)
@@ -20,10 +22,11 @@
 
 ## Offline prerequisite check
 ```bash
-npm run preflight
+./scripts/validate/preflight.sh
 ```
 
-Preflight is not a deployed smoke test. Run `npm run check` for offline application checks, then
-follow `database/README.md` for hosted RLS verification and `docs/DEPLOYMENT.md` for live acceptance.
+Preflight is not a deployed smoke test. Run the app's lint/typecheck/build and pytest (see the root
+`README.md`), then follow `finalfrontentbackend/databaseFINAL/README.md` for hosted RLS verification and
+`finalfrontentbackend/docs/DEPLOYMENT.md` for the production smoke test.
 
 Prompts: `prompts/deployment/`

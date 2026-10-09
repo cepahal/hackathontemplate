@@ -1,13 +1,10 @@
 # Frontend Conventions
 
 ## Reuse first
-Check the implemented Next.js app before adding new UI:
+Check existing components in `finalfrontentbackend/frontendFINAL/src/components/`:
 
-- `frontend/src/app/` for pages and layouts
-- `frontend/src/components/` for shared UI and feature panels
-- `frontend/src/lib/` for API, streaming, Supabase clients, and shared types
-
-The original folders with `explanation.txt` are historical notes, not component source directories.
+- `ui/` (Button, Input, Card, Modal, Badge, Alert, Spinner, Skeleton, EmptyState, ErrorState)
+- `layout/` (Navbar, Sidebar, PageContainer), `dashboard/`, `auth/`, `ai/`
 
 ## Patterns
 - Composition over inheritance

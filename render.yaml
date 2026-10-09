@@ -1,21 +1,34 @@
+# Render Blueprint for the FastAPI backend (Docker) in finalfrontentbackend/backendFINAL.
+# See finalfrontentbackend/docs/DEPLOYMENT.md.
+#
+# Secrets use `sync: false`: Render asks for them when the Blueprint is created; they are never
+# stored in this file.
 services:
   - type: web
-    name: hackathon-api
+    name: hackathon-backend
     runtime: docker
-    dockerfilePath: ./backend/Dockerfile
-    dockerContext: ./backend
-    healthCheckPath: /health
-    autoDeployTrigger: "off"
+    plan: free
+    rootDir: finalfrontentbackend/backendFINAL
+    dockerfilePath: ./finalfrontentbackend/backendFINAL/Dockerfile
+    dockerContext: ./finalfrontentbackend/backendFINAL
+    healthCheckPath: /api/v1/health
+    autoDeploy: true
     envVars:
-      - key: APP_ENV
+      - key: ENVIRONMENT
         value: production
-      - key: CORS_ORIGINS
-        sync: false
-      - key: APP_PUBLIC_URL
-        sync: false
+      - key: LOG_LEVEL
+        value: INFO
       - key: SUPABASE_URL
         sync: false
       - key: SUPABASE_ANON_KEY
         sync: false
-      - key: SUPABASE_SERVICE_ROLE_KEY
+      - key: FRONTEND_URL
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GITHUB_TOKEN
         sync: false

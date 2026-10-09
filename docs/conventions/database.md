@@ -1,7 +1,7 @@
 # Database Conventions
 
 ## Before changing schema
-1. Read existing models/migrations under `database/` and app ORM folders
+1. Read existing migrations under `finalfrontentbackend/databaseFINAL/migrations/` and `databaseFINAL/schema.md`
 2. Search for queries that will break
 3. Prefer additive changes (new nullable column, new table)
 

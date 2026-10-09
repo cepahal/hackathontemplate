@@ -1,1 +1,0 @@
-Intent: modal/dialog patterns with focus trap and ESC. Accessibility required.

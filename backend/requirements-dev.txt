@@ -1,3 +1,0 @@
-# Runtime plus linting and tests. pyproject.toml owns the dependency declarations.
--c requirements.lock
--e .[dev]

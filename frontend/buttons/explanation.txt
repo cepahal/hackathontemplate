@@ -1,1 +1,0 @@
-Intent: shared button variants. Do not create one-off buttons that duplicate variants.

@@ -2,21 +2,43 @@ name: Web and mobile UI
 on:
   push:
     paths:
-      - 'package.json'
-      - 'frontend/**'
+      - 'finalfrontentbackend/frontendFINAL/**'
       - 'mobile/**'
       - '.github/workflows/ui-checks.yml'
   pull_request:
     paths:
-      - 'package.json'
-      - 'frontend/**'
+      - 'finalfrontentbackend/frontendFINAL/**'
       - 'mobile/**'
       - '.github/workflows/ui-checks.yml'
 permissions:
   contents: read
 jobs:
-  ui:
+  web:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: finalfrontentbackend/frontendFINAL
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: finalfrontentbackend/frontendFINAL/package-lock.json
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:ui
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: ui-test-traces
+          path: finalfrontentbackend/frontendFINAL/.artifacts/playwright
+          retention-days: 7
+  native:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
     env:
       EXPO_NO_TELEMETRY: '1'
     steps:
@@ -25,18 +47,9 @@ jobs:
         with:
           node-version: '24'
           cache: npm
-          cache-dependency-path: |
-            frontend/package-lock.json
-            mobile/package-lock.json
-      - run: npm ci --prefix frontend
-      - run: npm run setup:mobile
-      - run: npm run check:mobile
-      - run: npx playwright install --with-deps chromium
-        working-directory: frontend
-      - run: npm run test:ui
-      - uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: ui-test-traces
-          path: frontend/.artifacts/playwright
-          retention-days: 7
+          cache-dependency-path: mobile/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run export:web
+      - run: npm run export:ios
