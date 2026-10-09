@@ -1,127 +1,88 @@
-# Hackathon starter
+# Hackathon Template
 
-Reusable Next.js / TypeScript / Tailwind frontend, FastAPI API, and Supabase database starter. The nine areas are reviewed sequentially using [docs/DELIVERY.md](docs/DELIVERY.md). Provider credentials, hosted database execution, and deployment verification are separate acceptance gates.
+A deployable full-stack starter plus an **AI Coding Agent Operating System** for hackathons.
+Fork it during events.
 
-## Begin here
+| What | Where |
+|---|---|
+| Frontend (Next.js 16, React 19, TypeScript, Tailwind, Supabase Auth) | [`finalfrontentbackend/frontendFINAL/`](finalfrontentbackend/frontendFINAL/README.md) |
+| Backend (FastAPI, Pydantic, Docker; AI + external API adapters) | [`finalfrontentbackend/backendFINAL/`](finalfrontentbackend/backendFINAL/README.md) |
+| Database migrations (Supabase Postgres, RLS) | [`finalfrontentbackend/databaseFINAL/`](finalfrontentbackend/databaseFINAL/README.md) |
+| App docs: architecture, setup, deployment, env vars, checklist | [`finalfrontentbackend/docs/`](finalfrontentbackend/docs/) |
+| CI (lint, typecheck, build, tests, Docker) | [`.github/workflows/hackathon-check.yml`](.github/workflows/hackathon-check.yml) |
+| Render Blueprint (backend) | [`render.yaml`](render.yaml) |
+| Agent instructions, rules, prompts, training | `AGENTS.md`, `.cursor/rules/`, `prompts/`, `docs/`, `scripts/` |
 
-1. Read the [delivery record](docs/DELIVERY.md) for implemented behavior and remaining checks.
-2. Run `npm run setup` from this folder on Windows, macOS, or Linux (`npm.cmd run setup` also works on Windows). Requires Node 22.19+ and Python 3.11+ with `venv` support. Setup creates `backend/.venv`, installs both apps, and preserves existing environment files. To select Python, run `npm run setup -- --python /path/to/python` (quote paths containing spaces).
-3. Follow [database setup](database/README.md): create Supabase, apply migrations in order, create test accounts, and run the two-account access-control verification before storing real data.
-4. Fill `frontend/.env.local` and `backend/.env` using their examples. Never put service-role or provider secrets in `NEXT_PUBLIC_` variables.
-5. Run `npm run preflight` for local prerequisites and configuration warnings, then `npm run check` for lint, types, production build and offline tests. Neither starts a preview or verifies hosted services.
-6. Follow [deployment instructions](docs/DEPLOYMENT.md) for Vercel and Railway/Render when your accounts are ready.
+## Run locally
 
-No preview starts automatically. Optional development commands are `npm run dev`, `npm run dev:frontend`, and `npm run dev:backend`; they bind to loopback. Stop development servers before setup/checks. Current delivery uses files, builds and in-process tests with no application server left running.
-
-## Nine areas
-
-| # | Area | Implementation |
-| --- | --- | --- |
-| 1 | Full-stack + database | Project CRUD, typed API, schema, migrations, seeds, RLS and membership |
-| 2 | Deployment + DevOps | Docker, Render/Railway config, GitHub Actions, Vercel release instructions |
-| 3 | Authentication + security | Email/password, Google, sessions, validated identity and roles |
-| 4 | AI infrastructure | OpenAI/Anthropic/Gemini text, SSE, structured responses, vision; OpenAI/Gemini embeddings |
-| 5 | Agents + RAG | Text ingestion, retrieval/citations, persisted bounded agents, approval-gated writes |
-| 6 | UI system | Reusable components; workspace, landing and chat layouts |
-| 7 | External APIs | GitHub, Maps, Discord, Slack, Twilio, Spotify and YouTube adapters |
-| 8 | Payments + events | Stripe checkout/portal, subscription/order state, signed deduplicated webhooks |
-| 9 | Multimodal + realtime | Image analysis/OCR prompts, text upload, notifications, private presence and bounded shared state |
-
-Missing configuration produces setup errors rather than simulated success. This is a reusable starter, not production certification. [The delivery record](docs/DELIVERY.md) distinguishes implemented examples from extension points.
-
-## Layout and contracts
-
-- `frontend/src/app/`: workspace, login, welcome, chat and foundation pages.
-- `frontend/src/components/`: panels and shared UI; `frontend/src/lib/`: authenticated HTTP/SSE and Supabase clients.
-- `backend/app/modules/`: identity, AI, integrations, commerce, realtime.
-- `backend/app/core/`: configuration, errors, request limits; `backend/tests/`: mocked-provider behavioral tests.
-- `database/migrations/`: core/billing SQL; `database/tests/`: hosted RLS verification.
-- `scripts/`: setup, development supervision, checks; `templates/`: copyable starters.
-- `docs/`: acceptance and hosting; `.github/workflows/`: build/test CI.
-
-`GET /health` verifies the API process, not provider readiness. Restricted APIs use `/api/v1`. User operations validate bearer identity and preserve JWT-based database RLS. Billing webhook persistence alone uses the service-role credential.
-
-Detailed references: [database](database/README.md), [identity](backend/app/modules/identity/README.md), [AI](ai/README.md), [templates](templates/README.md), [deployment](docs/DEPLOYMENT.md).
-
-## Dependencies and GitHub
-
-Frontend versions are locked in `frontend/package-lock.json`. Backend declarations are in `backend/pyproject.toml`, with resolved constraints in `backend/requirements.lock`. Setup uses a project-local npm cache, disables pip's global cache, and keeps TLS verification enabled.
-
-The setup, preflight and check commands support both Windows and POSIX virtualenv paths. Python discovery tries `python3`/`python` on macOS/Linux and `python`/`python3`/`py -3` on Windows, followed by the Windows Codex bundled runtime when present. An existing virtualenv is reused and must already run Python 3.11+. On systems where `venv` is packaged separately, install the matching Python venv package first.
-
-Only `backend/.env` and `frontend/.env.local` are application configuration files, created from their respective `.env.example` files. The root `.env.example` is an explanatory pointer; do not copy it into a root `.env`. A green preflight means local prerequisites passed, not that credentials, Auth, RLS, or external APIs have been tested. Start hosted verification with [the two-account RLS procedure](database/README.md#first-hosted-gate-two-account-rls).
-
-
-## Team instructions and training
-
-### Hackathon Template + AI Coding Agent OS
-
-Fork this during events. Then treat coding agents as **senior engineering teammates**, not autocomplete.
-
-## What this repository is
-
-1. **Implemented starter** — Next.js in `frontend/src/`, FastAPI feature modules in `backend/app/modules/`, Supabase migrations/tests in `database/`, and AI integration documentation in `ai/`. Historical intent folders coexist with this code; they are not the application architecture.
-2. **AI Operating System** — permanent instructions, rules, prompts, and workflows so agents behave consistently across stacks and events
-
-## Quick start for agents
-
-1. Read [`AGENTS.md`](./AGENTS.md)
-2. Cursor rules load from [`.cursor/rules/`](./.cursor/rules/)
-3. Pick a prompt from [`prompts/`](./prompts/) for the task
-4. Follow the loop: **INSPECT → UNDERSTAND → PLAN → IMPLEMENT → TEST → REVIEW → POLISH → REPORT**
-
-## Quick start for humans
+Requires Node.js ≥ 20.9, Python ≥ 3.11 and a Supabase project with
+`finalfrontentbackend/databaseFINAL/migrations/001–007` applied
+([setup guide](finalfrontentbackend/docs/SETUP.md)).
 
 ```bash
-# optional: declare time pressure
-./scripts/hackathon/set-mode.sh 6-12
+# Backend — http://localhost:8000/api/v1/health
+cd finalfrontentbackend/backendFINAL
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements-dev.txt
+cp .env.example .env            # SUPABASE_URL, SUPABASE_ANON_KEY, optional AI/API keys
+uvicorn app.main:app --reload --port 8000
 
-# after a big change: bundle a diff for AI review
-./scripts/review/ai-code-review.sh
-
-# local runtime/dependency/config checks (Windows, macOS, Linux)
-npm run preflight
+# Frontend — http://localhost:3000
+cd finalfrontentbackend/frontendFINAL
+cp .env.example .env.local      # NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, NEXT_PUBLIC_API_URL
+npm install
+npm run dev
 ```
 
-## System map
+## Environment variables
 
-```text
-AGENTS.md                 Master agent constitution
-.cursor/rules/            Persistent Cursor rules (always + globs)
-docs/
-  architecture/           Overview + decision log
-  conventions/            Coding, FE/BE/DB/API, testing, security, git, UI, AI
-  workflows/              Loop, debug, review, security, UI, deploy, team, hackathon
-  templates/              Task brief, handoff, PR
-prompts/                  Reusable master prompts by category
-scripts/
-  review/                 AI review bundle + checklist
-  validate/               Preflight
-  hackathon/              Time-band mode setter
-frontend/                 Next.js UI and browser clients
-backend/                  FastAPI API and feature modules
-database/                 Supabase migrations and hosted SQL tests
-ai/                       AI integration documentation
+The frontend gets only three **public** `NEXT_PUBLIC_*` values (Supabase URL, publishable key, API URL).
+Every secret (service-role key, AI keys, GitHub token, Resend key, webhooks) lives only in the
+backend's `.env` or host settings. `.env` files are git-ignored; templates are the `.env.example`
+files. Reference: [`finalfrontentbackend/docs/ENVIRONMENT.md`](finalfrontentbackend/docs/ENVIRONMENT.md).
+
+## Authentication
+
+Supabase Auth (email + password) in the browser, with sessions in cookies. The backend verifies the
+same JWT and derives the user from it. Roles come from `app_metadata`. Postgres RLS enforces
+ownership on every table. Details: [`finalfrontentbackend/docs/ARCHITECTURE.md`](finalfrontentbackend/docs/ARCHITECTURE.md).
+
+## Tests
+
+```bash
+cd finalfrontentbackend/backendFINAL && python -m pytest && ruff check . && mypy
+cd finalfrontentbackend/frontendFINAL && npm run lint && npm run typecheck && npm run build
 ```
 
-## Hackathon priority
+CI runs these on every push and pull request without secrets.
 
-```text
-working core flow → reliability → UX → visual polish → testing → security → extras
+## Deploy
+
+Supabase (database) → Railway or Render (backend `Dockerfile`, or `render.yaml`) → Vercel (Root
+Directory `finalfrontentbackend/frontendFINAL`) → set the backend's `FRONTEND_URL` → Supabase redirect URLs.
+Step by step: [`finalfrontentbackend/docs/DEPLOYMENT.md`](finalfrontentbackend/docs/DEPLOYMENT.md).
+Hackathon-day checklist: [`finalfrontentbackend/docs/HACKATHON_CHECKLIST.md`](finalfrontentbackend/docs/HACKATHON_CHECKLIST.md).
+
+## AI Coding Agent OS
+
+Coding agents are treated as **senior engineering teammates**, not autocomplete.
+
+1. Agents read [`AGENTS.md`](AGENTS.md) (Claude/Codex via [`CLAUDE.md`](CLAUDE.md)); Cursor loads [`.cursor/rules/`](.cursor/rules/).
+2. Pick a prompt from [`prompts/`](prompts/) (start with [`prompts/QUICKREF.md`](prompts/QUICKREF.md)).
+3. Loop: **INSPECT → UNDERSTAND → PLAN → IMPLEMENT → TEST → REVIEW → POLISH → REPORT**.
+
+```bash
+./scripts/hackathon/set-mode.sh 6-12     # declare time pressure (12+ | 6-12 | 2-6 | <2)
+./scripts/review/ai-code-review.sh       # bundle the current diff for AI review
+./scripts/validate/preflight.sh          # check the app's dependencies and env files
 ```
 
-Time bands: `12+` · `6-12` · `2-6` · `<2` — see `docs/workflows/hackathon-mode.md`.
+| Need | Path |
+|---|---|
+| Conventions (coding, FE/BE/DB/API, testing, security, git, UI, AI) | [`docs/conventions/`](docs/conventions/) |
+| Workflows (loop, debug, review, security, deploy, team, hackathon mode) | [`docs/workflows/`](docs/workflows/) |
+| Task brief / handoff templates (PR template: `.github/PULL_REQUEST_TEMPLATE.md`) | [`docs/templates/`](docs/templates/) |
+| Training curricula (debugging, web fundamentals, product strategy, hackathon execution) | [`docs/training/`](docs/training/) |
+| Parked scope during an event | [`FOLLOWUPS.md`](FOLLOWUPS.md) |
 
-## Team workflow
-
-- Split work with `docs/templates/task-brief.md` (non-overlapping files)
-- Hand off with `docs/templates/handoff.md`
-- Review with `prompts/code-review/full-review.md` (genuine findings only)
-
-## Design principle
-
-```text
-UNDERSTAND FIRST → CHANGE MINIMALLY → VERIFY → REVIEW → IMPROVE
-```
-
-The AI is not an autocomplete engine. It is a senior engineering teammate.
+Priority under time pressure: working core flow → reliability → UX → visual polish → testing → security → extras.

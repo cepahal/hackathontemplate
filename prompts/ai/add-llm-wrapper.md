@@ -10,5 +10,5 @@ Never claim verification you did not run.
 - `{{USE_CASE}}`
 
 ## Task
-Implement/extend thin LLM wrapper for {{USE_CASE}} under `ai/`.
+Implement/extend the AI layer for {{USE_CASE}} under `finalfrontentbackend/backendFINAL/app/ai/` (prompts, service, providers).
 Structured output, timeouts, server-side keys, safe failure mode.

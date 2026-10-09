@@ -1,42 +1,38 @@
-.hackathon/
-.review/
+# Secrets: only *.example templates are committed
 .env
-.DS_Store
-node_modules/
-__pycache__/
-.venv/
-venv/
-dist/
-build/
-.next/
-*.pyc
-.pytest_cache/
+.env.*
+!.env.example
 
-# Application starter exclusions
-# Dependencies and generated files
+# Dependencies and build output
 node_modules/
 .next/
 out/
 dist/
 build/
 *.tsbuildinfo
+next-env.d.ts
+.vercel/
+
+# Python
 .venv/
+venv/
 __pycache__/
 *.py[cod]
 *.egg-info/
 .pytest_cache/
+.mypy_cache/
 .ruff_cache/
 .coverage
+coverage/
 htmlcov/
 
-# Local configuration and logs (examples stay tracked)
-.env
-.env.*
-!.env.example
-!.env.*.example
-*.log
+# Local agent-OS state (scripts/hackathon/set-mode.sh, scripts/review/ai-code-review.sh)
+.hackathon/
+.review/
+
+# OS / editor / logs
 .DS_Store
 Thumbs.db
-
-# Local verification artifacts
-.artifacts/
+.idea/
+.vscode/
+*.log

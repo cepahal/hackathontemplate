@@ -2,7 +2,7 @@
 
 ## Architecture
 ```text
-UI / API → application service → ai/ wrapper → provider SDK
+UI → FastAPI route → AIService (app/ai) → provider adapter → provider HTTP API
 ```
 
 Keep provider SDKs out of UI components.

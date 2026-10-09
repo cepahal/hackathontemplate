@@ -12,6 +12,6 @@ Never claim verification you did not run.
 ## Task
 Build UI for {{UI_GOAL}}.
 
-Reuse `frontend/` primitives and existing app components.
+Reuse `finalfrontentbackend/frontendFINAL/src/components/` primitives and existing app components.
 Include loading, error, empty states.
 Check mobile width for demo path.

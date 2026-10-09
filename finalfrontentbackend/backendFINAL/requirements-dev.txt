@@ -1,0 +1,7 @@
+# Local development and CI: runtime deps + tests and static checks.
+-r requirements.txt
+
+pytest==9.1.1
+pytest-asyncio==1.4.0
+mypy==2.4.0
+ruff==0.16.10

@@ -1,6 +1,6 @@
 ---
 description: UI/UX polish expectations for demo-quality interfaces
-globs: frontend/**/*,**/*.{tsx,jsx,css,scss}
+globs: finalfrontentbackend/frontendFINAL/**/*,**/*.{tsx,jsx,css,scss}
 alwaysApply: false
 ---
 

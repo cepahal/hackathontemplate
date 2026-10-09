@@ -1,1 +1,0 @@
-Intent: HTTP route modules. Validate, authn, authz, consistent errors. Prompt: prompts/features/add-api-endpoint.md.

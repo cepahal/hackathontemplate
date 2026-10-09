@@ -1,12 +1,12 @@
 ---
 description: AI feature development — wrappers, structured output, safety
-globs: ai/**/*,**/llm/**/*,**/embeddings/**/*,**/prompts/**/*
+globs: finalfrontentbackend/backendFINAL/app/ai/**/*,**/llm/**/*,**/embeddings/**/*,**/prompts/**/*
 alwaysApply: false
 ---
 
 # AI Feature Rules
 
-- Put provider calls behind thin wrappers (`ai/` patterns)
+- Put provider calls behind the existing wrappers (`finalfrontentbackend/backendFINAL/app/ai/`, `app/integrations/`)
 - Prefer structured outputs with schema validation
 - Keep API keys server-side only
 - Bound tokens, timeouts, and retries

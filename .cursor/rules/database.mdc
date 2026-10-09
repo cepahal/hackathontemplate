@@ -1,6 +1,6 @@
 ---
 description: Database and schema change discipline
-globs: database/**/*,**/migrations/**/*,**/models/**/*,**/*schema*
+globs: finalfrontentbackend/databaseFINAL/**/*,**/migrations/**/*,**/models/**/*,**/*schema*
 alwaysApply: false
 ---
 
