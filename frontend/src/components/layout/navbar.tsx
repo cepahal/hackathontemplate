@@ -17,17 +17,21 @@ export function Navbar({
   return (
     <header
       className={cn(
-        "flex min-h-20 flex-wrap items-center justify-between gap-4 border-b border-border bg-card px-5 py-4 sm:px-9",
+        "flex min-h-20 min-w-0 flex-wrap items-center justify-between gap-4 border-b border-border bg-card pt-[calc(1rem+env(safe-area-inset-top))] pr-[max(1.25rem,env(safe-area-inset-right))] pb-4 pl-[max(1.25rem,env(safe-area-inset-left))] sm:pr-[max(2.25rem,env(safe-area-inset-right))] sm:pl-[max(2.25rem,env(safe-area-inset-left))]",
         className,
       )}
     >
-      <div className="flex min-w-0 items-center gap-3">
+      <div className="flex min-w-0 max-w-full flex-wrap items-center gap-3">
         {menu}
-        {brand}
+        <div className="min-w-0 [overflow-wrap:anywhere] [&_a]:inline-flex [&_a]:min-h-11 [&_a]:items-center">
+          {brand}
+        </div>
         {children}
       </div>
       {actions && (
-        <div className="flex flex-wrap items-center gap-2">{actions}</div>
+        <div className="flex min-w-0 max-w-full flex-wrap items-center gap-2 [&_a]:min-h-11 [&_button]:min-h-11">
+          {actions}
+        </div>
       )}
     </header>
   );

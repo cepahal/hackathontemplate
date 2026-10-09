@@ -2,7 +2,7 @@
 
 Work proceeds in numerical order. Each area has four gates: implementation review, offline behavior checks, reproducible setup, and live acceptance. Prior parallel implementation is retained, but does not automatically pass these gates.
 
-The user has no Supabase project yet and requested setup/verification steps. Hosted checks remain pending credentials; they are not represented as locally proven. No preview server is started.
+The user has no Supabase project yet and requested setup/verification steps. Hosted checks remain pending credentials; they are not represented as locally proven. Temporary loopback servers are used only for the browser checks recorded below.
 
 ## 1. Full-stack platform and database
 
@@ -120,3 +120,13 @@ The interrupted parallel work was retained and reviewed one area at a time. This
 - Added reproducible commands, examples and contracts in `UI_LIBRARY.md`, plus `.github/workflows/ui-checks.yml` for native bundle and browser checks. Hosted CI outcomes are verified separately after push.
 
 Native iPhone/iPad runtime, VoiceOver/Dynamic Type, Apple signing and App Store distribution are **NOT RUN**. An iOS bundle export is not a signed native binary. The mobile dependency audit reported unresolved high/moderate upstream advisories in the Expo/React Native dependency tree (including braces, node-forge and uuid); npm offered no compatible fixes. SDK-compatible versions remain locked; review upstream fixes before production distribution. No real authentication/provider flow, hosted database change, or cloud deployment was performed for this UI library delivery.
+
+### 2026-10-08: Responsive website completion
+
+- Reused the existing UI-library branch and added a configurable `WebsiteShell` with a public `/ui/website` preview. The app and website shells share navigation, mobile drawer behavior, and desktop-resize cleanup.
+- Improved safe-area spacing, 44px navigation targets, narrow-screen wrapping, short landscape scrolling, and focus restoration when the mobile trigger becomes hidden. The viewport-cover setting is scoped to the safe-area-aware `/ui` routes.
+- Added configurable card grids, three spinner sizes, decorative spinner support, skeleton placeholders, and an accessible loading card. Loading regions avoid duplicate announcements; reduced-motion preferences stop spinner and skeleton animation.
+- Fresh frontend dependency install, ESLint, TypeScript, seven Node tests, and the production build passed. The final `test:web` run passed all 20 desktop/phone checks using installed Microsoft Edge, including accessibility scans, anchor navigation, keyboard focus, 320px layouts, landscape drawers, and reduced motion. Desktop and phone screenshots were visually reviewed.
+- Added a standalone web test configuration so website checks do not require installing or exporting the native app. The temporary port-3100 server stopped after the suite; no listeners remained on the UI test ports.
+
+These are responsive-browser results with phone emulation. Physical iPhone Safari and native-device checks were not performed in this follow-up. Native source and backend behavior were unchanged and their suites were not rerun. No public deployment was created.

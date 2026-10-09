@@ -11,7 +11,7 @@ export default defineConfig({
   use: {
     trace: "retain-on-failure",
     navigationTimeout: 15000,
-    channel: "chromium",
+    channel: process.env.PLAYWRIGHT_CHANNEL || "chromium",
   },
   projects: [
     {

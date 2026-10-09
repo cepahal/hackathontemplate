@@ -31,6 +31,7 @@ import {
 import { Dialog } from "@/components/ui/dialog";
 import { EmptyState, ErrorNotice, Loading } from "@/components/ui/feedback";
 import { Spinner } from "@/components/ui/spinner";
+import { CardSkeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const sections = [
@@ -207,6 +208,23 @@ export function UiLibrary() {
           <>
             <Card>
               <CardHeader>
+                <CardTitle>Website shell</CardTitle>
+                <CardDescription>
+                  A full-width header, responsive navigation, content, and footer.
+                  Try the same page on a desktop or a phone.
+                </CardDescription>
+              </CardHeader>
+              <CardFooter>
+                <Button asChild className="min-h-11">
+                  <Link href="/ui/website">
+                    Open website preview
+                    <ArrowRight aria-hidden="true" />
+                  </Link>
+                </Button>
+              </CardFooter>
+            </Card>
+            <Card>
+              <CardHeader>
                 <CardTitle>Navigation bar</CardTitle>
                 <CardDescription>
                   A brand, page context, and actions. On small screens, the
@@ -322,20 +340,7 @@ export function UiLibrary() {
                 </EmptyState>
               </CardContent>
             </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>While you wait</CardTitle>
-                <CardDescription>
-                  Keep the layout steady while content arrives.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Loading label="Loading preview…" />
-                <p className="text-center text-xs text-muted-foreground">
-                  Static loading example
-                </p>
-              </CardContent>
-            </Card>
+            <CardSkeleton label="Loading preview card…" />
           </CardGrid>
         )}
         {section === "states" && (
@@ -396,9 +401,11 @@ export function UiLibrary() {
                   </div>
                 </TabsContent>
               </Tabs>
-              <div className="mt-8 flex items-center gap-3 border-t border-border pt-5 text-sm text-muted-foreground">
-                <Spinner label="Inline loading example" />A spinner also fits
-                beside an inline status.
+              <div className="mt-8 flex flex-wrap items-center gap-5 border-t border-border pt-5 text-sm text-muted-foreground">
+                <Spinner size="sm" label="Small spinner example" />
+                <Spinner label="Inline loading example" />
+                <Spinner size="lg" label="Large spinner example" />
+                <span>Three sizes. The same accessible status.</span>
               </div>
             </CardContent>
           </Card>

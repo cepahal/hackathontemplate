@@ -142,3 +142,67 @@ test("welcome page exposes the UI library without signing in", async ({
     page.getByRole("heading", { name: "A head start for your next idea." }),
   ).toBeVisible();
 });
+
+test("website shell supports real links, mobile navigation, and accessible content", async ({ page }) => {
+  await navigate(page, "Layout shells");
+  await page.getByRole("link", { name: "Open website preview" }).click();
+  await expect(page).toHaveURL(/\/ui\/website$/);
+  await expect(page.getByRole("heading", { name: /A little structure.*A lot of possibility\./ })).toBeVisible();
+  const trigger = page.getByRole("button", { name: "Open navigation" });
+  if (await trigger.isVisible()) {
+    await trigger.click();
+    const drawer = page.getByRole("dialog", { name: "Website navigation" });
+    await expect(drawer).toBeVisible();
+    await drawer.getByRole("link", { name: "Patterns", exact: true }).click();
+    await expect(drawer).toBeHidden();
+  } else {
+    await page.getByRole("navigation", { name: "Website navigation" })
+      .getByRole("link", { name: "Patterns", exact: true }).click();
+  }
+  await expect(page).toHaveURL(/#patterns$/);
+  await expect(page.getByRole("heading", { name: "The essentials, ready to use." })).toBeInViewport();
+  expect((await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze()).violations).toEqual([]);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+  await page.screenshot({ path: test.info().outputPath("website.png"), fullPage: true });
+  await page.getByRole("link", { name: "Open component library", exact: true }).click();
+  await expect(page).toHaveURL(/\/ui$/);
+});
+
+test("drawer closes on desktop resize and restores visible keyboard focus", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.getByRole("button", { name: "Open navigation" }).click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await expect(page.getByRole("dialog")).toBeHidden();
+  await expect(page.getByRole("main")).toBeFocused();
+  await expect(page.locator("body")).not.toHaveCSS("overflow", "hidden");
+});
+
+test("cards, feedback, and drawer remain usable on a small phone", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  await navigate(page, "Card containers");
+  await expect(page.getByRole("status").filter({ hasText: "Loading preview card…" })).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await navigate(page, "Feedback states");
+  await page.getByRole("tab", { name: "loading", exact: true }).click();
+  await expect(page.getByRole("tabpanel", { name: "loading" }).getByRole("status")).toHaveCount(1);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.setViewportSize({ width: 568, height: 320 });
+  await page.getByRole("button", { name: "Open navigation" }).click();
+  const drawer = page.getByRole("dialog", { name: "Workspace navigation" });
+  await drawer.getByText("One idea. Every screen.").scrollIntoViewIfNeeded();
+  await expect(drawer.getByText("One idea. Every screen.")).toBeInViewport();
+  await expect(drawer.getByRole("button", { name: "Close navigation" })).toBeInViewport();
+  await drawer.getByRole("button", { name: "Close navigation" }).click();
+  await expect(drawer).toBeHidden();
+});
+
+test("reduced motion stops spinner and skeleton animation", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await navigate(page, "Card containers");
+  await expect(page.locator('[data-slot="skeleton"]').first()).toHaveCSS("animation-name", "none");
+  await navigate(page, "Feedback states");
+  await page.getByRole("tab", { name: "loading", exact: true }).click();
+  await expect(page.getByRole("tabpanel", { name: "loading" }).locator('[data-slot="spinner"] svg')).toHaveCSS("animation-name", "none");
+});
