@@ -130,6 +130,12 @@ Details: [`backendFINAL/app/ai/README.md`](../backendFINAL/app/ai/README.md).
 
 Details: [`backendFINAL/app/integrations/README.md`](../backendFINAL/app/integrations/README.md).
 
+Snowflake exposes two internal adapters: `integrations.snowflake` for bound SQL and
+`integrations.snowflake_cortex` for bounded text generation via Cortex REST. They share the
+account hostname and token, but Cortex uses the account user's default role. Tiger Data is an
+independent PostgreSQL event store; no automatic cross-database replication is configured.
+Photon runs as a separate Spectrum Node service and does not yet invoke the Cortex adapter.
+
 ## Deployment
 
 ```text

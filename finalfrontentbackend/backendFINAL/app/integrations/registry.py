@@ -16,6 +16,7 @@ from app.integrations.maps.client import GeocodingProvider, GoogleGeocoder, Mapb
 from app.integrations.nessie.client import NessieClient
 from app.integrations.notifications.client import NotificationClient
 from app.integrations.snowflake.client import SnowflakeClient
+from app.integrations.snowflake.cortex import CortexClient
 from app.integrations.tigerdata.client import TigerDataClient
 
 AIProviderName = Literal["openai", "gemini", "anthropic", "grok"]
@@ -40,9 +41,14 @@ class Integrations:
             schema=settings.snowflake_schema,
             role=settings.snowflake_role,
         )
-        self.tigerdata = TigerDataClient(
-            settings.tigerdata_dsn, sslrootcert=settings.tigerdata_ssl_root_cert
+        self.snowflake_cortex = CortexClient(
+            http,
+            settings.snowflake_token,
+            account_host=settings.snowflake_account_host,
+            token_type=settings.snowflake_token_type,
+            default_model=settings.snowflake_cortex_model,
         )
+        self.tigerdata = TigerDataClient(settings.tigerdata_dsn, sslrootcert=settings.tigerdata_ssl_root_cert)
 
         geocoder: GeocodingProvider = (
             GoogleGeocoder(http, settings.maps_api_key)
@@ -74,6 +80,7 @@ class Integrations:
             "github": self.github.configured,
             "nessie": self.nessie.configured,
             "snowflake": self.snowflake.configured,
+            "snowflake_cortex": self.snowflake_cortex.configured,
             "tigerdata": self.tigerdata.configured,
             "maps": self.maps.configured,
             "email": self.email.configured,

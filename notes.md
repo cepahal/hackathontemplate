@@ -7,7 +7,9 @@ Scope: generic API infrastructure only. Winning strategy and event product featu
 
 - Imported the existing template and installed the canonical frontend/backend dependencies.
 - Kept Supabase auth and application storage; Gemini is the example environment's default AI provider.
-- Added optional Snowflake SQL REST and Tiger Data PostgreSQL adapters to the existing backend registry.
+- Added optional Snowflake SQL REST, Snowflake Cortex AI REST, and Tiger Data PostgreSQL adapters
+  to the existing backend registry. Cortex follows the sponsor's LLM API emphasis and uses the
+  existing Snowflake token; it does not require OpenAI/Gemini credentials or a new SDK.
 - Added the official Photon Spectrum Node service with local terminal and managed iMessage modes,
   plus optional Gemini replies. It remains separate from Supabase-authenticated web routes.
 - Added root setup, dev, doctor, guarded Gemini smoke, and configuration-test commands.
@@ -24,12 +26,17 @@ this starter does not replace Supabase or automatically replicate between them.
 
 ## Account status
 
-- Gemini: dedicated project creation attempted; Google Cloud requires the user to enable two-step
-  verification. No new Gemini key has been created or live tested.
-- Snowflake and Tiger Data: adapters prepared; account credentials and live connections remain pending.
+- Gemini: deferred at the user's request; no new key or live test. The earlier account attempt
+  required user-only Google two-step verification.
+- Snowflake: SQL and Cortex adapters prepared. The 120-day/$400 student signup is open, pending
+  the user's chosen email/country and verification. Cortex role, region/model access, token, and
+  live connection remain unverified. A SQL-only warehouse is not the sponsor's full AI use case.
+- Tiger Data: adapter prepared; account credentials and live connection remain pending.
 - Photon: signed-in dashboard checked and a dedicated free project created. `HACKWITHPHOTON` was accepted at checkout, with $0 today
-  and $25/month renewal next month. Subscription was not activated; user completion and Link
-  verification and account phone enrollment remain required. No Spectrum secrets saved or live iMessage test yet.
+  and $25/month renewal next month. The authorized Subscribe attempt returned PAYMENT METHOD REQUIRED;
+  no subscription exists to cancel yet. Private Stripe Link/payment entry and account phone enrollment
+  remain required. Existing Spectrum project credentials are saved only in the ignored local service
+  environment; no live iMessage test yet. Cancel renewal immediately after successful activation.
 
 ## Verification log
 
@@ -48,3 +55,39 @@ this starter does not replace Supabase or automatically replicate between them.
 - Published branch `codex/hacknc-setup` to the original template and opened
   [PR #6](https://github.com/cepahal/hackathontemplate/pull/6). GitHub's private-email push rejection
   was resolved using this repository's local GitHub no-reply identity; global Git identity was preserved.
+- GitHub CI exposed two Ruff formatting differences despite passing lint; these were corrected.
+  Added 46 mocked Cortex cases; 78 combined SQL/Cortex tests and focused strict mypy/Ruff passed.
+  After registry/status wiring, all 151 relevant backend tests passed, full Ruff lint and formatting
+  passed, strict mypy passed for 94 files, and frontend typecheck/lint passed.
+- The configuration doctor confirms Photon credentials are present but the canonical application's
+  Supabase URL/public-key values remain missing/placeholders. Public previews do not establish a
+  working authenticated backend. Snowflake/Tiger do not replace Supabase auth or migrations.
+
+## October 10 kickoff audit
+
+- Official hacking runs Saturday 11:30 AM EDT to Sunday 10 AM EDT. At 10 AM, prioritize check-in
+  (ends 10:30 AM), opening, account preparation, user interviews, and a demo plan. Preserve the
+  imported template baseline `ac389e3015985dae0ae090bcf9bc9c9141cb7cd8` and this pre-start setup
+  history. Ask organizers whether the personal template and generic preparation are eligible;
+  do not assume MLH's framework allowance overrides event rules.
+- Maximum four human teammates; confirm each person's registration, check-in, and prize eligibility.
+  General or eligible Beginner is required. Beginner needs more than half the team to be first-time
+  hackathon participants. Disclose AI assistance and be able to explain the actual code.
+- Draft the submission on the actual 2026 Devpost, add all teammates, and plan the mandatory GitHub
+  link and video of no more than two minutes. The Notion submission page's 2026-labelled link
+  currently points to 2025. Confirm Photon/Nessie entry instructions and award stacking with an
+  organizer; unlimited track entries do not prove unlimited award collection.
+- Photon Free/Pro shared lines require exact recipient allowlisting; ask the sponsor how judges
+  will test the project. Do not assume the Pro promo supplies a dedicated, publicly textable number
+  or Business group-chat features. Spectrum needs a long-running Node/Bun runtime with gRPC.
+- Before implementation, choose one user, one task, one stored outcome, and one failure/duplicate
+  case. Prepare a two-minute demo outline and bounded file ownership. Validate one useful live
+  interaction before adding more optional services. Keep the Photon model bridge and full
+  authenticated application clearly marked as unfinished until implemented and live tested.
+
+Sources: [official 2026 Devpost and rubric](https://hacknc-2026.devpost.com/),
+[schedule](https://past-cushion-a6f.notion.site/Schedule-80b816442900839bb2cd014849f3410f),
+[submission instructions](https://past-cushion-a6f.notion.site/IMPORTANT-Submission-Instructions-648816442900823890388190be1f899e),
+[tracks](https://past-cushion-a6f.notion.site/HackNC-Tracks-756816442900834e900c016919f003e8),
+[MLH standard rules](https://github.com/MLH/mlh-policies/blob/main/standard-hackathon-rules.md),
+[Photon routing](https://photon.codes/docs/spectrum-ts/providers/imessage/connection-and-routing).

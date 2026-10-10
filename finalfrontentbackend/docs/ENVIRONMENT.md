@@ -80,7 +80,11 @@ Any subset. Unconfigured providers return `503 INTEGRATION_NOT_CONFIGURED`.
 |---|---|
 | `GITHUB_TOKEN` | GitHub repo/search endpoints (a token with no scopes is enough for public data) |
 | `NESSIE_API_KEY` | Capital One Nessie mock-banking API (HackNC sponsor track) |
-| `PHOTON_API_KEY` | Photon Spectrum iMessage agent (HackNC sponsor track; adapter not built yet) |
+| `PHOTON_API_KEY` | Legacy placeholder; actual Spectrum credentials are `SPECTRUM_PROJECT_ID` and `SPECTRUM_PROJECT_SECRET` in `services/photon/.env` |
+| `SNOWFLAKE_ACCOUNT_HOST`, `SNOWFLAKE_TOKEN`, `SNOWFLAKE_TOKEN_TYPE` | Snowflake SQL and Cortex REST; account hostname only; PAT by default, OAuth supported |
+| `SNOWFLAKE_CORTEX_MODEL` | Cortex text-generation model, default `claude-sonnet-4-5`; default account role needs Cortex permissions |
+| `SNOWFLAKE_WAREHOUSE`, `SNOWFLAKE_DATABASE`, `SNOWFLAKE_SCHEMA`, `SNOWFLAKE_ROLE` | Optional SQL execution context; does not select Cortex's default role |
+| `TIGERDATA_DSN`, `TIGERDATA_SSL_ROOT_CERT` | Independent PostgreSQL/Timescale service with verify-full TLS; apply the explicit event schema before event methods |
 | `MAPS_PROVIDER`, `MAPS_API_KEY` | Geocoding: `mapbox` (default) or `google` |
 | `RESEND_API_KEY`, `EMAIL_FROM` | Test email via Resend; `EMAIL_FROM` must be on a verified domain |
 | `SLACK_WEBHOOK_URL`, `DISCORD_WEBHOOK_URL` | Notifications; the URL is the secret and must match the official prefix |

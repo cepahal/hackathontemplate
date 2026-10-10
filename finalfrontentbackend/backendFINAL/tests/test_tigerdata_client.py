@@ -105,9 +105,7 @@ def test_optional_client_never_connects_on_construction(database: tuple[AsyncMoc
 
 
 @pytest.mark.parametrize("method", ["health", "record", "list"])
-async def test_missing_dsn_fails_without_connecting(
-    database: tuple[AsyncMock, FakeConnection], method: str
-) -> None:
+async def test_missing_dsn_fails_without_connecting(database: tuple[AsyncMock, FakeConnection], method: str) -> None:
     connect, _ = database
     client = TigerDataClient(None)
     with pytest.raises(IntegrationNotConfiguredError, match="TIGERDATA_DSN"):

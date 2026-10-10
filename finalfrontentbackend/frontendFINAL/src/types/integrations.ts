@@ -8,6 +8,7 @@ export interface IntegrationStatus {
   github: boolean;
   nessie: boolean;
   snowflake: boolean;
+  snowflake_cortex: boolean;
   tigerdata: boolean;
   maps: boolean;
   email: boolean;

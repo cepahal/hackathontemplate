@@ -98,6 +98,7 @@ class Settings(BaseSettings):
     snowflake_account_host: str | None = None
     snowflake_token: SecretStr | None = None
     snowflake_token_type: Literal["PROGRAMMATIC_ACCESS_TOKEN", "OAUTH"] = Field(default="PROGRAMMATIC_ACCESS_TOKEN")
+    snowflake_cortex_model: str = Field(default="claude-sonnet-4-5", pattern=r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,254}$")
     snowflake_warehouse: str | None = None
     snowflake_database: str | None = None
     snowflake_schema: str | None = None

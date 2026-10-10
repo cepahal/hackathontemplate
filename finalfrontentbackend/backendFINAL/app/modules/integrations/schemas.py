@@ -15,6 +15,7 @@ class IntegrationStatus(BaseModel):
     github: bool
     nessie: bool
     snowflake: bool
+    snowflake_cortex: bool
     tigerdata: bool
     maps: bool
     email: bool
