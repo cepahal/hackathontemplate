@@ -26,7 +26,7 @@ export function ErrorState({
     <div
       role="alert"
       className={cn(
-        "flex flex-col items-center justify-center rounded-xl border border-danger/20 bg-danger-soft px-6 py-10 text-center",
+        "flex min-w-0 flex-col items-center justify-center rounded-xl border border-danger/20 bg-danger-soft px-6 py-10 text-center [overflow-wrap:anywhere]",
         className,
       )}
     >
@@ -34,7 +34,7 @@ export function ErrorState({
         <TriangleAlert aria-hidden="true" className="size-6" />
       </div>
       <h3 className="text-sm font-semibold text-foreground">{title}</h3>
-      <p className="mt-1 max-w-md text-sm break-words text-muted-foreground">{message}</p>
+      <p className="mt-1 max-w-md text-sm leading-relaxed text-muted-foreground">{message}</p>
       {(onRetry || action) && (
         <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
           {onRetry && (

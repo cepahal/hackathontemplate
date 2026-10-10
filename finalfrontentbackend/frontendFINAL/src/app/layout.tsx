@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
+import Link from "next/link";
+import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { getCurrentUser } from "@/lib/auth";
 import { APP_DESCRIPTION, APP_NAME } from "@/lib/constants";
@@ -16,6 +18,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: "#f8fafc",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
@@ -23,18 +27,18 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
   return (
     <html lang="en">
-      <body className="flex min-h-dvh flex-col">
+      <body className="flex min-h-dvh min-w-0 flex-col">
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-card focus:px-3 focus:py-2 focus:text-sm focus:font-medium focus:shadow-md"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-[max(0.75rem,env(safe-area-inset-top))] focus:left-[max(0.75rem,env(safe-area-inset-left))] focus:z-50 focus:rounded-md focus:bg-card focus:px-4 focus:py-3 focus:text-sm focus:font-medium focus:shadow-md focus:outline-2 focus:outline-ring"
         >
           Skip to content
         </a>
         <Navbar user={user} />
-        <div className="flex flex-1 flex-col">{children}</div>
-        <footer className="border-t border-border py-6 text-center text-sm text-muted-foreground">
+        <div className="flex min-w-0 flex-1 flex-col">{children}</div>
+        <Footer links={<Link href="/ui" className="font-medium transition-colors hover:text-foreground">Explore the UI library</Link>}>
           © {new Date().getFullYear()} {APP_NAME}
-        </footer>
+        </Footer>
       </body>
     </html>
   );

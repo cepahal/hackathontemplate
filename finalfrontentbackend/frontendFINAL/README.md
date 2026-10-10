@@ -16,12 +16,17 @@ A reusable, product-agnostic Next.js frontend: UI kit, app layout, Supabase auth
 ```bash
 cd finalfrontentbackend/frontendFINAL
 cp .env.example .env.local   # then fill in the Supabase values
-npm install
+npm ci
 npm run dev                  # http://localhost:3000
 ```
 
 The app refuses to start pages without `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 and logs a `[Supabase config]` error explaining what is missing.
+
+The public UI previews are `/ui`, `/ui/workspace`, and `/ui/website`. They use local demo content
+and require no signed-in account, but the normal application's Supabase configuration remains
+required. See the [UI library guide](../docs/UI_LIBRARY.md) for reusable layout/component examples
+and the browser test configuration.
 
 | Script              | What it does                         |
 | ------------------- | ------------------------------------ |
@@ -30,12 +35,22 @@ and logs a `[Supabase config]` error explaining what is missing.
 | `npm run start`     | Serve the production build           |
 | `npm run lint`      | ESLint                               |
 | `npm run typecheck` | Generate route types + `tsc --noEmit` |
+| `npm run test:ui`   | Build and test public UI previews with Playwright |
+
+For the UI suite, run `npx playwright install chromium` once, then `npm run test:ui` in this directory.
+The suite starts a temporary loopback server on port 3100 and supplies non-credential local test
+values for Supabase/API configuration. It runs signed-out previews; it does not validate hosted
+authentication, RLS, or provider integrations. `PLAYWRIGHT_CHANNEL=msedge` optionally selects an
+already installed Edge browser. See [verification details](../docs/UI_LIBRARY.md#verification).
 
 ## Routes
 
 | Route            | Access      | Purpose                                                    |
 | ---------------- | ----------- | ---------------------------------------------------------- |
 | `/`              | Public      | Landing page with CTA to the dashboard                     |
+| `/ui`            | Public      | Component library and interactive feedback examples        |
+| `/ui/workspace`  | Public      | Responsive workspace template with local demo state        |
+| `/ui/website`    | Public      | Full-width website template                                 |
 | `/login`         | Public      | Email/password login (signed-in users → dashboard)         |
 | `/signup`        | Public      | Email/password signup with confirmation handling           |
 | `/auth/callback` | Public      | Finishes email-link flows (`?code=` or `?token_hash=`)     |
@@ -52,8 +67,9 @@ src/
 ├── proxy.ts             # Next 16 "middleware": refreshes sessions, guards protected routes
 ├── app/                 # Routes (layout, pages, loading/error/not-found, auth/callback, api/health)
 ├── components/
-│   ├── ui/              # Button, Input, PasswordInput, Card, Modal, Badge, Alert, Spinner, Skeleton, EmptyState, ErrorState
-│   ├── layout/          # Navbar (auth-aware), Sidebar (role-aware), PageContainer
+│   ├── ui/              # Button, Card, Modal/drawer, Spinner, Skeleton/CardSkeleton, LoadingState, EmptyState, ErrorState, forms
+│   ├── layout/          # Navbar, NavigationBar, Sidebar/SidebarPanel, AppShell, WebsiteShell, PageContainer, Footer, CardGrid
+│   ├── templates/       # Public component gallery and workspace examples
 │   ├── dashboard/       # StatCard, RecentActivity, QuickActions
 │   ├── auth/            # LoginForm, SignupForm, LogoutButton, AuthGuard
 │   └── settings/        # SettingsPanels

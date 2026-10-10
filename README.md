@@ -47,6 +47,10 @@ Supabase Auth (email + password) in the browser, with sessions in cookies. The b
 same JWT and derives the user from it. Roles come from `app_metadata`. Postgres RLS enforces
 ownership on every table. Details: [`finalfrontentbackend/docs/ARCHITECTURE.md`](finalfrontentbackend/docs/ARCHITECTURE.md).
 
+## UI templates
+
+The canonical frontend includes a responsive component gallery at `/ui`, a working local workspace at `/ui/workspace`, and a website template at `/ui/website`. Reuse its navbar, sidebar/drawer, footer, cards, skeletons, and loading states. See the [UI library guide](finalfrontentbackend/docs/UI_LIBRARY.md) for examples and [verification record](finalfrontentbackend/docs/UI_VERIFICATION.md) for test scope. The optional [native mobile starter](mobile/README.md) has its own dependency setup.
+
 ## Tests
 
 ```bash

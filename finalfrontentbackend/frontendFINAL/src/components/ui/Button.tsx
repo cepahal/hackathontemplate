@@ -35,6 +35,7 @@ export function buttonVariants({
 }: ButtonStyleOptions = {}): string {
   return cn(
     "inline-flex shrink-0 items-center justify-center font-medium whitespace-nowrap transition-colors",
+    "motion-reduce:transition-none [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11",
     "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
     "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50",
     variantClasses[variant],
@@ -61,6 +62,7 @@ export function Button({
 }: ButtonProps) {
   return (
     <button
+      data-slot="button"
       type={type}
       disabled={disabled || loading}
       aria-busy={loading || undefined}

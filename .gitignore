@@ -36,3 +36,8 @@ Thumbs.db
 .idea/
 .vscode/
 *.log
+
+# Local UI verification artifacts
+.artifacts/
+.npm-cache/
+.expo/

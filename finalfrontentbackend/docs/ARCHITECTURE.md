@@ -1,5 +1,11 @@
 # Architecture
 
+## Reusable UI templates
+
+`frontendFINAL/src/components/layout/` supplies the auth-aware global navbar, shared footer, page container, app/website shells, and responsive navigation drawers. `src/components/ui/` remains the single component system; the new templates reuse its uppercase component APIs and semantic design tokens. `/ui`, `/ui/workspace`, and `/ui/website` are public previews under the existing root chrome, with one main landmark per route. The workspace preview uses in-memory example projects and does not call the backend. Protected application routes retain the existing proxy and server authorization checks.
+
+The optional Expo app under repository-root `mobile/` is a separate native UI starter, with its own React Native dependency versions. It is not a second web or backend implementation. See [UI_LIBRARY.md](UI_LIBRARY.md).
+
 Three deployable parts, each with its own README:
 
 | Part | Folder | Runtime | Hosted on |

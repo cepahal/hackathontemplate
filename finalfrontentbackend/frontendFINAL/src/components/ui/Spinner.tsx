@@ -1,7 +1,7 @@
 import { LoaderCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type SpinnerSize = "sm" | "md" | "lg";
+export type SpinnerSize = "sm" | "md" | "lg";
 
 const sizeClasses: Record<SpinnerSize, string> = {
   sm: "size-4",
@@ -19,8 +19,9 @@ export interface SpinnerProps {
 export function Spinner({ size = "md", label = "Loading", className }: SpinnerProps) {
   const icon = (
     <LoaderCircle
+      data-slot="spinner"
       aria-hidden="true"
-      className={cn("animate-spin text-current", sizeClasses[size], className)}
+      className={cn("shrink-0 text-current motion-safe:animate-spin", sizeClasses[size], className)}
     />
   );
 
@@ -29,7 +30,7 @@ export function Spinner({ size = "md", label = "Loading", className }: SpinnerPr
   }
 
   return (
-    <span role="status" className="inline-flex items-center">
+    <span role="status" className="inline-flex shrink-0 items-center align-middle">
       {icon}
       <span className="sr-only">{label}</span>
     </span>
