@@ -6,6 +6,10 @@ export interface IntegrationStatus {
   anthropic: boolean;
   grok: boolean;
   github: boolean;
+  nessie: boolean;
+  snowflake: boolean;
+  snowflake_cortex: boolean;
+  tigerdata: boolean;
   maps: boolean;
   email: boolean;
   slack: boolean;

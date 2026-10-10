@@ -62,6 +62,19 @@ def test_local_http_supabase_is_allowed() -> None:
     assert build_settings(supabase_url="http://127.0.0.1:54321").rest_url == "http://127.0.0.1:54321/rest/v1"
 
 
+def test_snowflake_cortex_model_defaults_and_qualified_model_names() -> None:
+    assert build_settings().snowflake_cortex_model == "claude-sonnet-4-5"
+    assert build_settings(snowflake_cortex_model="DEMO.PUBLIC.fine_tuned-model").snowflake_cortex_model == (
+        "DEMO.PUBLIC.fine_tuned-model"
+    )
+
+
+@pytest.mark.parametrize("model", ["", " ", "model\n", "a" * 256, "https://attacker.example/model"])
+def test_rejects_invalid_snowflake_cortex_model_names(model: str) -> None:
+    with pytest.raises(ValidationError, match="snowflake_cortex_model"):
+        build_settings(snowflake_cortex_model=model)
+
+
 def test_missing_config_fails_with_actionable_message(monkeypatch: pytest.MonkeyPatch) -> None:
     class NoEnvFileSettings(config.Settings):
         model_config = SettingsConfigDict(env_file=None)

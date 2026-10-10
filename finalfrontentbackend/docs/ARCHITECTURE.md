@@ -1,5 +1,24 @@
 # Architecture
 
+Optional hackathon APIs are documented in [API_SETUP.md](API_SETUP.md). Gemini uses the existing
+AI provider boundary. Snowflake SQL REST and Tiger Data PostgreSQL are independent, server-only
+registry adapters; neither replaces Supabase auth or application storage. Photon Spectrum runs
+as a separate Node 24 service with bounded optional Gemini text replies. No startup migrations,
+cross-database replication, or public arbitrary-SQL endpoint are added.
+
+## HackNC local tooling
+
+Repository-root `package.json` and `scripts/hacknc/` provide environment-preserving setup,
+configuration checks, and loopback development commands for the canonical app. The optional
+`services/photon/` is an independent Node 24 process using Spectrum for terminal development
+and managed iMessage. It uses optional bounded Gemini text replies and an explicit fixed reply
+when Gemini is unconfigured; it has no connection to FastAPI. See [API_SETUP.md](API_SETUP.md)
+and the service README.
+
+When both public Supabase values are absent, the frontend renders public previews signed out;
+protected pages still redirect to login. Partial configuration and secret/service-role public
+keys still fail validation. Configured projects retain the normal session-refresh path.
+
 ## Reusable UI templates
 
 `frontendFINAL/src/components/layout/` supplies the auth-aware global navbar, shared footer, page container, app/website shells, and responsive navigation drawers. `src/components/ui/` remains the single component system; the new templates reuse its uppercase component APIs and semantic design tokens. `/ui`, `/ui/workspace`, and `/ui/website` are public previews under the existing root chrome, with one main landmark per route. The workspace preview uses in-memory example projects and does not call the backend. Protected application routes retain the existing proxy and server authorization checks.
@@ -110,6 +129,12 @@ Details: [`backendFINAL/app/ai/README.md`](../backendFINAL/app/ai/README.md).
   `GET /api/v1/integrations/status` reports which ones have keys (booleans only).
 
 Details: [`backendFINAL/app/integrations/README.md`](../backendFINAL/app/integrations/README.md).
+
+Snowflake exposes two internal adapters: `integrations.snowflake` for bound SQL and
+`integrations.snowflake_cortex` for bounded text generation via Cortex REST. They share the
+account hostname and token, but Cortex uses the account user's default role. Tiger Data is an
+independent PostgreSQL event store; no automatic cross-database replication is configured.
+Photon runs as a separate Spectrum Node service and does not yet invoke the Cortex adapter.
 
 ## Deployment
 

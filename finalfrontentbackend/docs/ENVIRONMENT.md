@@ -1,5 +1,12 @@
 # Environment variables
 
+For the optional Gemini, Snowflake, Tiger Data, and Photon setup, see
+[API_SETUP.md](API_SETUP.md). Snowflake uses `SNOWFLAKE_ACCOUNT_HOST` and `SNOWFLAKE_TOKEN`
+with optional warehouse/database/schema/role context. Tiger Data uses `TIGERDATA_DSN` and
+optional `TIGERDATA_SSL_ROOT_CERT`. Actual Photon Spectrum credentials are
+`SPECTRUM_PROJECT_ID` and `SPECTRUM_PROJECT_SECRET` in `services/photon/.env`;
+the legacy backend `PHOTON_API_KEY` placeholder is not used by that service.
+
 All configuration comes from environment variables. Real values never go in git, the Dockerfile,
 or frontend code. Templates (no real values): [`../.env.example`](../.env.example) (everything, split
 into public/secret), `frontendFINAL/.env.example`, `backendFINAL/.env.example`.
@@ -72,6 +79,12 @@ Any subset. Unconfigured providers return `503 INTEGRATION_NOT_CONFIGURED`.
 | Variable | Used for |
 |---|---|
 | `GITHUB_TOKEN` | GitHub repo/search endpoints (a token with no scopes is enough for public data) |
+| `NESSIE_API_KEY` | Capital One Nessie mock-banking API (HackNC sponsor track) |
+| `PHOTON_API_KEY` | Legacy placeholder; actual Spectrum credentials are `SPECTRUM_PROJECT_ID` and `SPECTRUM_PROJECT_SECRET` in `services/photon/.env` |
+| `SNOWFLAKE_ACCOUNT_HOST`, `SNOWFLAKE_TOKEN`, `SNOWFLAKE_TOKEN_TYPE` | Snowflake SQL and Cortex REST; account hostname only; PAT by default, OAuth supported |
+| `SNOWFLAKE_CORTEX_MODEL` | Cortex text-generation model, default `claude-sonnet-4-5`; default account role needs Cortex permissions |
+| `SNOWFLAKE_WAREHOUSE`, `SNOWFLAKE_DATABASE`, `SNOWFLAKE_SCHEMA`, `SNOWFLAKE_ROLE` | Optional SQL execution context; does not select Cortex's default role |
+| `TIGERDATA_DSN`, `TIGERDATA_SSL_ROOT_CERT` | Independent PostgreSQL/Timescale service with verify-full TLS; apply the explicit event schema before event methods |
 | `MAPS_PROVIDER`, `MAPS_API_KEY` | Geocoding: `mapbox` (default) or `google` |
 | `RESEND_API_KEY`, `EMAIL_FROM` | Test email via Resend; `EMAIL_FROM` must be on a verified domain |
 | `SLACK_WEBHOOK_URL`, `DISCORD_WEBHOOK_URL` | Notifications; the URL is the secret and must match the official prefix |

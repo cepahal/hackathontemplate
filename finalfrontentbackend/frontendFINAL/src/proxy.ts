@@ -1,11 +1,14 @@
-import type { NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { ROUTES } from "@/lib/constants";
 import { getSafeRedirectPath, isAuthPath, isProtectedPath } from "@/lib/routes";
+import { getOptionalSupabaseConfig } from "@/lib/supabase/config";
 import { redirectWithSession, updateSession } from "@/lib/supabase/middleware";
 
 // Next.js 16 renamed `middleware.ts` to `proxy.ts`; this is the request-time auth gate.
 export async function proxy(request: NextRequest) {
-  const { response, claims } = await updateSession(request);
+  const { response, claims } = getOptionalSupabaseConfig()
+    ? await updateSession(request)
+    : { response: NextResponse.next({ request }), claims: null };
   const { pathname, search } = request.nextUrl;
 
   if (!claims && isProtectedPath(pathname)) {

@@ -13,7 +13,11 @@ from app.core.config import Settings
 from app.integrations.email.client import EmailClient, ResendEmailProvider
 from app.integrations.github.client import GitHubClient
 from app.integrations.maps.client import GeocodingProvider, GoogleGeocoder, MapboxGeocoder, MapsClient
+from app.integrations.nessie.client import NessieClient
 from app.integrations.notifications.client import NotificationClient
+from app.integrations.snowflake.client import SnowflakeClient
+from app.integrations.snowflake.cortex import CortexClient
+from app.integrations.tigerdata.client import TigerDataClient
 
 AIProviderName = Literal["openai", "gemini", "anthropic", "grok"]
 AI_PROVIDER_NAMES: tuple[AIProviderName, ...] = ("openai", "gemini", "anthropic", "grok")
@@ -26,6 +30,25 @@ class Integrations:
         self.anthropic = AnthropicProvider(http, settings.anthropic_api_key, default_model=settings.anthropic_model)
         self.grok = GrokProvider(http, settings.grok_api_key, default_model=settings.grok_model)
         self.github = GitHubClient(http, settings.github_token)
+        self.nessie = NessieClient(http, settings.nessie_api_key)
+        self.snowflake = SnowflakeClient(
+            http,
+            settings.snowflake_token,
+            account_host=settings.snowflake_account_host,
+            token_type=settings.snowflake_token_type,
+            warehouse=settings.snowflake_warehouse,
+            database=settings.snowflake_database,
+            schema=settings.snowflake_schema,
+            role=settings.snowflake_role,
+        )
+        self.snowflake_cortex = CortexClient(
+            http,
+            settings.snowflake_token,
+            account_host=settings.snowflake_account_host,
+            token_type=settings.snowflake_token_type,
+            default_model=settings.snowflake_cortex_model,
+        )
+        self.tigerdata = TigerDataClient(settings.tigerdata_dsn, sslrootcert=settings.tigerdata_ssl_root_cert)
 
         geocoder: GeocodingProvider = (
             GoogleGeocoder(http, settings.maps_api_key)
@@ -55,6 +78,10 @@ class Integrations:
             "anthropic": self.anthropic.configured,
             "grok": self.grok.configured,
             "github": self.github.configured,
+            "nessie": self.nessie.configured,
+            "snowflake": self.snowflake.configured,
+            "snowflake_cortex": self.snowflake_cortex.configured,
+            "tigerdata": self.tigerdata.configured,
             "maps": self.maps.configured,
             "email": self.email.configured,
             "slack": self.notifications.configured("slack"),

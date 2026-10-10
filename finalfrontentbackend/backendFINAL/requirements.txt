@@ -7,3 +7,5 @@ httpx==0.28.1
 PyJWT[crypto]==2.15.1
 # Multipart form parsing for FastAPI UploadFile/Form (AI image/file uploads)
 python-multipart==0.0.32
+# Optional Tiger Data/PostgreSQL adapter; binary libpq supports Windows without a compiler.
+psycopg[binary]==3.3.6

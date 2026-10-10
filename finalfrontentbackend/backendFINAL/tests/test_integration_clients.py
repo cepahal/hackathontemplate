@@ -291,6 +291,10 @@ def test_status_reports_configuration_without_secrets() -> None:
         "anthropic": False,
         "grok": False,
         "github": True,
+        "nessie": False,
+        "snowflake": False,
+        "snowflake_cortex": False,
+        "tigerdata": False,
         "maps": False,
         "email": True,
         "slack": True,
@@ -304,3 +308,57 @@ def test_registry_picks_maps_provider_and_ai_clients() -> None:
     assert isinstance(integrations.maps._geocoder, GoogleGeocoder)
     assert integrations.ai("anthropic") is integrations.anthropic
     assert integrations.openai.default_model == "gpt-4.1-mini"
+
+
+async def test_registry_wires_cortex_with_shared_snowflake_credentials_and_model() -> None:
+    host = "testorg-testaccount.snowflakecomputing.com"
+    api = MockApi(
+        httpx.Response(
+            200,
+            json={
+                "model": "llama3.1-8b",
+                "choices": [{"message": {"role": "assistant", "content": "API ready."}}],
+            },
+        )
+    )
+    settings = build_settings(
+        snowflake_account_host=host,
+        snowflake_token="snowflake-registry-test-only",
+        snowflake_token_type="OAUTH",
+        snowflake_cortex_model="llama3.1-8b",
+    )
+    integrations = Integrations(settings, api.client())
+    status = integrations.status()
+    assert status["snowflake"] is True
+    assert status["snowflake_cortex"] is True
+    assert api.requests == []
+    assert "snowflake-registry-test-only" not in repr(status)
+    result = await integrations.snowflake_cortex.generate_text("Check this API")
+    assert result.text == "API ready."
+    assert api.body()["model"] == "llama3.1-8b"
+    assert api.last.url.host == host
+    assert api.last.headers["Authorization"] == "Bearer snowflake-registry-test-only"
+    assert api.last.headers["X-Snowflake-Authorization-Token-Type"] == "OAUTH"
+
+
+# --- Capital One Nessie ------------------------------------------------------------------
+
+
+async def test_nessie_lists_accounts_with_key_param() -> None:
+    from app.integrations.nessie.client import NessieClient
+
+    api = MockApi(httpx.Response(200, json=[{"_id": "ignored", "id": "a1", "type": "Checking", "balance": 12.5}]))
+    accounts = await NessieClient(api.client(), SecretStr("nessie-test-key")).list_accounts("c1")
+
+    assert accounts[0].balance == 12.5
+    assert api.last.url.path == "/customers/c1/accounts"
+    assert api.last.url.params["key"] == "nessie-test-key"
+
+
+async def test_nessie_rejects_bad_ids_and_missing_key() -> None:
+    from app.integrations.nessie.client import NessieClient
+
+    with pytest.raises(ValueError):
+        await NessieClient(MockApi().client(), SecretStr("k")).get_account("../x")
+    with pytest.raises(IntegrationNotConfiguredError, match="NESSIE_API_KEY"):
+        await NessieClient(MockApi().client(), None).list_customers()

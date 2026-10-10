@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/Badge";
 import { buttonVariants } from "@/components/ui/Button";
 import { APP_NAME, AUTH_LINKS, NAVBAR_LINKS, ROUTES } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/browser";
+import { getOptionalSupabaseConfig } from "@/lib/supabase/config";
 import type { AuthUser } from "@/types/auth";
 
 /** Re-renders server data when the session changes in this tab or another one. */
@@ -17,6 +18,7 @@ function useAuthStateSync(serverUserId: string | null) {
   const router = useRouter();
 
   useEffect(() => {
+    if (!getOptionalSupabaseConfig()) return;
     const supabase = createClient();
     const {
       data: { subscription },

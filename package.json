@@ -1,0 +1,16 @@
+{
+  "name": "hacknc-workspace",
+  "private": true,
+  "scripts": {
+    "setup": "node scripts/hacknc/setup.mjs",
+    "dev": "node scripts/hacknc/dev.mjs",
+    "dev:frontend": "node scripts/hacknc/dev.mjs --frontend-only",
+    "doctor": "node scripts/hacknc/doctor.mjs",
+    "smoke:gemini": "node --use-system-ca scripts/hacknc/smoke-gemini.mjs",
+    "test:setup": "node --test scripts/hacknc/config.test.mjs scripts/hacknc/supabase-config.test.mjs",
+    "test:auth-config": "node --test scripts/hacknc/supabase-config.test.mjs"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}
