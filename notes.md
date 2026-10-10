@@ -26,17 +26,19 @@ this starter does not replace Supabase or automatically replicate between them.
 
 ## Account status
 
-- Gemini: deferred at the user's request; no new key or live test. The earlier account attempt
-  required user-only Google two-step verification.
+- Gemini: activation resumed by the user, who is completing Google two-step verification.
+  AI Studio requires Cloud-console project creation first; the account still shows the MFA gate
+  at the latest refresh. No new key or live test is verified. Configure both backend and Photon
+  environments and restart both after adding the key.
 - Snowflake: SQL and Cortex adapters prepared. The 120-day/$400 student signup is open, pending
   the user's chosen email/country and verification. Cortex role, region/model access, token, and
   live connection remain unverified. A SQL-only warehouse is not the sponsor's full AI use case.
 - Tiger Data: adapter prepared; account credentials and live connection remain pending.
-- Photon: signed-in dashboard checked and a dedicated free project created. `HACKWITHPHOTON` was accepted at checkout, with $0 today
-  and $25/month renewal next month. The authorized Subscribe attempt returned PAYMENT METHOD REQUIRED;
-  no subscription exists to cancel yet. Private Stripe Link/payment entry and account phone enrollment
-  remain required. Existing Spectrum project credentials are saved only in the ignored local service
-  environment; no live iMessage test yet. Cancel renewal immediately after successful activation.
+- Photon: signed-in dashboard and dedicated project verified. After private checkout completion,
+  Spectrum Pro became active. The agent canceled renewal immediately on the user's request;
+  Stripe confirms **Plan canceled**, with access until **November 10, 2026**. Do not reactivate.
+  Proof is saved only under ignored `.artifacts/`. Existing Spectrum credentials remain in the
+  ignored local service environment. Account phone enrollment and live iMessage remain unverified.
 
 ## Verification log
 
@@ -62,8 +64,17 @@ this starter does not replace Supabase or automatically replicate between them.
 - The configuration doctor confirms Photon credentials are present but the canonical application's
   Supabase URL/public-key values remain missing/placeholders. Public previews do not establish a
   working authenticated backend. Snowflake/Tiger do not replace Supabase auth or migrations.
+- All GitHub checks passed for published Cortex/API commit `6064a1e` on PR #6.
+- Follow-up readiness checks now distinguish SQL from Cortex, verify Photon's Node 24/SDK
+  prerequisites, report its separate Gemini environment, and check the installed psycopg import.
+  All 10 setup/config tests and JavaScript syntax checks passed. Provider readiness remains
+  separate from account enrollment, model authorization, and actual delivery.
 
 ## October 10 kickoff audit
+
+The operational [start scope guide](finalfrontentbackend/docs/START_SCOPE.md) records the existing
+API baseline, pending account setup, ownership, and acceptance criteria for the first complete
+workflow. No product name or project concept has been selected by this API setup work.
 
 - Official hacking runs Saturday 11:30 AM EDT to Sunday 10 AM EDT. At 10 AM, prioritize check-in
   (ends 10:30 AM), opening, account preparation, user interviews, and a demo plan. Preserve the

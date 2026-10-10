@@ -3,7 +3,7 @@ import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { configured, configReport, readEnv, secretPublicKey } from "./common.mjs";
+import { configured, configReport, photonConfigReport, readEnv, secretPublicKey } from "./common.mjs";
 
 test("env reader preserves quoted keys and strips unquoted comments", () => {
   const directory = mkdtempSync(join(tmpdir(), "hacknc-env-"));
@@ -65,4 +65,34 @@ test("secret publishable-key aliases block frontend-only startup without exposin
     assert.ok(entries.some((entry) => entry.level === "FAIL" && entry.message.includes("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: secret")));
     assert.ok(!JSON.stringify(entries).includes(value.trim()));
   }
+});
+
+test("Snowflake SQL and Cortex remain optional and never claim live verification", () => {
+  const optionalEntries = configReport({}, {}).filter((entry) => entry.message.startsWith("Snowflake"));
+  assert.equal(optionalEntries.length, 2);
+  assert.ok(optionalEntries.every((entry) => entry.level === "INFO" && entry.message.includes("SNOWFLAKE_TOKEN")));
+  const fakeToken = "snowflake_redaction_sentinel";
+  const configuredEntries = configReport({}, { SNOWFLAKE_ACCOUNT_HOST: "org-account.snowflakecomputing.com", SNOWFLAKE_TOKEN: fakeToken }).filter((entry) => entry.message.startsWith("Snowflake"));
+  assert.ok(configuredEntries.every((entry) => entry.level === "OK" && entry.message.includes("not live verified")));
+  assert.ok(!JSON.stringify(configuredEntries).includes(fakeToken));
+});
+
+test("Photon checks its Node 24 SDK runtime without making it a main-app blocker", () => {
+  const missing = photonConfigReport({}, { nodeMajor: 22, spectrumInstalled: false });
+  assert.ok(missing.every((entry) => entry.level === "INFO"));
+  assert.ok(missing[0].message.includes("Node.js >=24"));
+  assert.ok(missing[0].message.includes("npm --prefix services/photon ci"));
+  assert.ok(missing.some((entry) => entry.message.includes("transport-only replies")));
+  const present = photonConfigReport({}, { nodeMajor: 24, spectrumInstalled: true });
+  assert.equal(present[0].level, "OK");
+  assert.ok(present[0].message.includes("not live verified"));
+});
+
+test("Photon reports its separate credentials and Gemini key without exposing values", () => {
+  const values = { SPECTRUM_PROJECT_ID: "photon_project_sentinel", SPECTRUM_PROJECT_SECRET: "photon_secret_sentinel", GEMINI_API_KEY: "photon_gemini_sentinel" };
+  const entries = photonConfigReport(values, { nodeMajor: 24, spectrumInstalled: true });
+  assert.ok(entries.every((entry) => entry.level === "OK" && entry.message.includes("not live verified")));
+  assert.ok(entries.some((entry) => entry.message.includes("phone enrollment, plan access, and delivery")));
+  assert.ok(entries.some((entry) => entry.message.includes("service environment")));
+  for (const sentinel of Object.values(values)) assert.ok(!JSON.stringify(entries).includes(sentinel));
 });

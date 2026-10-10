@@ -49,6 +49,9 @@ export function configReport(front, back) {
   for (const name of ["NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_API_URL"]) required(name, front[name]);
   required(frontKey ? frontKeyName : "NEXT_PUBLIC_SUPABASE_ANON_KEY", frontKey);
   for (const name of ["SUPABASE_URL", "SUPABASE_ANON_KEY"]) required(name, back[name]);
+  if ([front.NEXT_PUBLIC_SUPABASE_URL, frontKey, back.SUPABASE_URL, back.SUPABASE_ANON_KEY].some((value) => !configured(value))) {
+    entries.push({ level: "INFO", message: "Supabase auth: backend startup, sign-in, and protected API routes require the matching project URL and public key; optional provider credentials do not replace them" });
+  }
 
   for (const [name, value] of [["NEXT_PUBLIC_SUPABASE_ANON_KEY", front.NEXT_PUBLIC_SUPABASE_ANON_KEY], ["NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY", front.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY], ["SUPABASE_ANON_KEY", back.SUPABASE_ANON_KEY]]) {
     if (secretPublicKey(value)) entries.push({ level: "FAIL", message: `${name}: secret/service-role key detected; use a public publishable/anon key` });
@@ -71,6 +74,7 @@ export function configReport(front, back) {
     ["GitHub", ["GITHUB_TOKEN"]],
     ["Capital One Nessie", ["NESSIE_API_KEY"]],
     ["Snowflake SQL API", ["SNOWFLAKE_ACCOUNT_HOST", "SNOWFLAKE_TOKEN"]],
+    ["Snowflake Cortex AI", ["SNOWFLAKE_ACCOUNT_HOST", "SNOWFLAKE_TOKEN"]],
     ["Tiger Data PostgreSQL", ["TIGERDATA_DSN"]],
     ["Maps", ["MAPS_API_KEY", "MAPS_PROVIDER"]],
     ["Resend email", ["RESEND_API_KEY", "EMAIL_FROM"]],
@@ -81,6 +85,19 @@ export function configReport(front, back) {
     entries.push({ level: missing.length ? "INFO" : "OK", message: `${label}: ${missing.length ? `optional; set ${missing.join(", ")}` : "configured (not live verified)"}` });
   }
   return entries;
+}
+
+export function photonConfigReport(values, { nodeMajor, spectrumInstalled }) {
+  const missingRuntime = [];
+  if (nodeMajor < 24) missingRuntime.push("Node.js >=24");
+  if (!spectrumInstalled) missingRuntime.push("SDK dependencies; run npm --prefix services/photon ci");
+  const missingCredentials = ["SPECTRUM_PROJECT_ID", "SPECTRUM_PROJECT_SECRET"].filter((name) => !configured(values[name]));
+  const hasGeminiKey = configured(values.GEMINI_API_KEY);
+  return [
+    { level: missingRuntime.length ? "INFO" : "OK", message: `Photon runtime: ${missingRuntime.length ? `optional; needs ${missingRuntime.join("; ")}` : "Node.js >=24 and SDK present (transport not live verified)"}` },
+    { level: missingCredentials.length ? "INFO" : "OK", message: `Photon Spectrum credentials: ${missingCredentials.length ? `optional; set ${missingCredentials.join(", ")}` : "configured (phone enrollment, plan access, and delivery not live verified)"}` },
+    { level: hasGeminiKey ? "OK" : "INFO", message: `Photon Gemini: ${hasGeminiKey ? "configured in service environment (generation not live verified)" : "transport-only replies; set GEMINI_API_KEY in services/photon/.env to enable text generation"}` },
+  ];
 }
 
 export function environments() {

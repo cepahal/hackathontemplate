@@ -44,12 +44,14 @@ client uses built-in fetch. Optional provider credentials are not needed to run 
 
 ## Gemini
 
-Gemini account activation is deferred at the user's request. Leave `GEMINI_API_KEY` unset;
-the following instructions are retained for later. Snowflake Cortex has its own credentials.
+The user is completing Google MFA and Gemini activation. No dedicated key or live response is
+verified yet. Snowflake Cortex has its own independent credentials.
 
 1. Open [Google AI Studio API keys](https://aistudio.google.com/api-keys).
-2. Create a separate project named `HackNC 2026`, then a key in that project. If AI Studio
-   directs you to Google Cloud, create the project there and import it into AI Studio.
+2. AI Studio currently reports that the project must be created in Google Cloud. Open the
+   [Cloud project form](https://console.cloud.google.com/projectcreate) and create `HackNC 2026`.
+   Then open AI Studio's Projects view, choose Import projects, and import that project before
+   creating a key in it. Keep billing disabled unless deliberately needed.
 3. Google Cloud currently blocks this account until the user enables two-step verification.
    Complete that account security step yourself. No dedicated key has been created yet.
 4. In `finalfrontentbackend/backendFINAL/.env`, set:
@@ -60,7 +62,10 @@ GEMINI_MODEL=gemini-3.8-flash
 AI_DEFAULT_PROVIDER=gemini
 ```
 
-5. Run `npm.cmd run smoke:gemini` for one small live request. It refuses to send without a key.
+5. Set the same `GEMINI_API_KEY` and `GEMINI_MODEL` in `services/photon/.env` to enable that
+   service's model replies. The backend environment is not automatically shared with Photon.
+   Restart both services after editing their environments; values are loaded at startup.
+6. Run `npm.cmd run smoke:gemini` for one small live request. It refuses to send without a key.
    This may consume provider quota. Leave billing disabled unless you deliberately need it.
 
 The existing AI routes and provider abstraction already support Gemini; OpenAI credentials
@@ -84,6 +89,9 @@ Merely configuring SQL credentials does not demonstrate the sponsor's AI use cas
    necessary. Confirm the selected model is available in the account's region; a present token
    does not prove REST/model access. `SNOWFLAKE_ROLE` below applies to SQL requests, not to
    selecting Cortex's role.
+   By default, PAT authentication also requires a network policy, even when a human user can
+   generate a token without one. Allow the actual backend's egress addresses; do not disable
+   network-policy enforcement to make the token work. Token creation alone is not a live test.
 4. Fill the following in the backend `.env`:
 
 ```dotenv
@@ -136,11 +144,11 @@ for standalone Windows launch instructions and explicit SQL application.
 ## Photon Spectrum
 
 1. Sign in to [Photon](https://app.photon.codes/dashboard).
-2. Apply the official `HACKWITHPHOTON` promo and inspect checkout. The observed offer is $0 today
-   but renews at $25/month next month. The authorized Subscribe attempt returned
-   `PAYMENT METHOD REQUIRED`; no subscription exists yet. Complete Stripe Link verification or
-   payment-method entry privately in checkout. After activation, cancel renewal immediately as
-   requested and verify that the dashboard shows cancellation and the remaining access period.
+2. The existing project's `HACKWITHPHOTON` subscription was activated after private checkout
+   completion. The agent then canceled renewal as requested. Stripe confirms **Plan canceled**,
+   with Spectrum Pro access until **November 10, 2026**. Do not reactivate it. For a fresh project,
+   inspect any promo's renewal/payment terms before subscribing; the observed undiscounted plan
+   was $25/month. No payment data or billing-session links belong in the repository.
 3. A dedicated free project was created and its project ID/secret are already saved in the local,
    ignored `services/photon/.env`. Add your genuine iMessage phone in Account → General → Add phone
    (setup currently reports `account_phone_missing`); enter the six-digit SMS code yourself. Confirm
@@ -155,7 +163,7 @@ GEMINI_API_KEY=
 GEMINI_MODEL=gemini-3.8-flash
 ```
 
-Gemini remains deferred. Its key is optional for a local transport check; set it later to enable model replies.
+The Gemini key is optional for a local transport check; set it to enable model replies.
 You may privately reuse the dedicated hackathon Gemini key in this service's environment.
 Run `npm.cmd --prefix services/photon start` for local terminal mode. Run
 `npm.cmd --prefix services/photon start -- --imessage` after credentials and the line are ready.
