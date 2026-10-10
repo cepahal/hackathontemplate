@@ -3,6 +3,19 @@
 A deployable full-stack starter plus an **AI Coding Agent Operating System** for hackathons.
 Fork it during events.
 
+## HackNC 2026 setup
+
+From the repository root on Windows, run `npm.cmd run doctor` to see which account values are
+still needed. `npm.cmd run setup` installs the canonical frontend and backend while preserving
+existing environment files. `npm.cmd run dev` starts both apps once Supabase is configured.
+`npm.cmd run dev:frontend` opens the public UI previews without database credentials.
+
+The optional [Photon messaging starter](services/photon/README.md) runs locally without an API
+key: `npm.cmd --prefix services/photon start`. Actual iMessage delivery needs a Photon project
+and provisioned line. See [API setup and architecture](finalfrontentbackend/docs/API_SETUP.md)
+for Gemini, Snowflake, Tiger Data, and Photon environment values and activation steps.
+The implementation and verification log is [notes.md](notes.md).
+
 | What | Where |
 |---|---|
 | Frontend (Next.js 16, React 19, TypeScript, Tailwind, Supabase Auth) | [`finalfrontentbackend/frontendFINAL/`](finalfrontentbackend/frontendFINAL/README.md) |

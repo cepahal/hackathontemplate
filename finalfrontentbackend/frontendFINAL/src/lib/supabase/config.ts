@@ -30,10 +30,10 @@ function readJwtRole(token: string): string | undefined {
 }
 
 /**
- * Returns the public Supabase URL and publishable (anon) key, or throws a
- * `SupabaseConfigError` explaining exactly what is missing or wrong.
+ * Returns null only when both public Supabase values are absent, allowing signed-out
+ * public previews. Partial or unsafe configuration still throws `SupabaseConfigError`.
  */
-export function getSupabaseConfig(): SupabasePublicConfig {
+export function getOptionalSupabaseConfig(): SupabasePublicConfig | null {
   if (cachedConfig) {
     return cachedConfig;
   }
@@ -43,6 +43,10 @@ export function getSupabaseConfig(): SupabasePublicConfig {
   const publishableKey = (
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
   )?.trim();
+
+  if (!url && !publishableKey) {
+    return null;
+  }
 
   const missing: string[] = [];
   if (!url) {
@@ -79,4 +83,16 @@ export function getSupabaseConfig(): SupabasePublicConfig {
 
   cachedConfig = { url: parsedUrl.origin, publishableKey };
   return cachedConfig;
+}
+
+/** Returns validated public configuration; clients always require real project values. */
+export function getSupabaseConfig(): SupabasePublicConfig {
+  const config = getOptionalSupabaseConfig();
+  if (!config) {
+    throw new SupabaseConfigError(
+      "Missing NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY. " +
+        "Add them to .env.local (see .env.example) and restart the dev server.",
+    );
+  }
+  return config;
 }

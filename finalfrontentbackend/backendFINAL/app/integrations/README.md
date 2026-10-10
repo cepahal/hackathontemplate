@@ -69,6 +69,9 @@ route ──► service (policy) ──► adapter method ──► ExternalServ
 | Gemini | `GeminiClient` | `GEMINI_API_KEY`, `GEMINI_MODEL` | `generateContent`; structured via `responseJsonSchema` |
 | Anthropic | `AnthropicClient` | `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL` | Messages API; structured via a forced tool call |
 | GitHub | `GitHubClient` | `GITHUB_TOKEN` | `get_repository`, `search_repositories` |
+| Nessie | `NessieClient` | `NESSIE_API_KEY` | `list_customers`, `list_accounts`, `get_account`, `list_purchases`/`deposits`/`transfers`/`bills`, `list_merchants` |
+| Snowflake | `SnowflakeClient` | `SNOWFLAKE_ACCOUNT_HOST`, `SNOWFLAKE_TOKEN`; optional token type/warehouse/database/schema/role | SQL REST API with bound parameters and bounded status polling; internal server use only |
+| Tiger Data | `TigerDataClient` | `TIGERDATA_DSN`, optional `TIGERDATA_SSL_ROOT_CERT` | Parameterized PostgreSQL event methods with verify-full TLS; apply explicit schema first |
 | Maps | `MapsClient` | `MAPS_PROVIDER` (`mapbox`/`google`), `MAPS_API_KEY` | `geocode(query, limit=)` |
 | Email | `EmailClient` | `RESEND_API_KEY`, `EMAIL_FROM` | `send_email(to, subject, html, ...)` |
 | Slack / Discord | `NotificationClient` | `SLACK_WEBHOOK_URL`, `DISCORD_WEBHOOK_URL` | Webhook hosts are pinned in Settings |

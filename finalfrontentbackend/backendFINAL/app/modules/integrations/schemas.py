@@ -13,6 +13,9 @@ class IntegrationStatus(BaseModel):
     anthropic: bool
     grok: bool
     github: bool
+    nessie: bool
+    snowflake: bool
+    tigerdata: bool
     maps: bool
     email: bool
     slack: bool

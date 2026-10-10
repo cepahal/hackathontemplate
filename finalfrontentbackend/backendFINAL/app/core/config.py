@@ -92,6 +92,18 @@ class Settings(BaseSettings):
     github_token: SecretStr | None = None
     maps_provider: Literal["mapbox", "google"] = "mapbox"
     maps_api_key: SecretStr | None = None
+    nessie_api_key: SecretStr | None = None  # Capital One Nessie (HackNC sponsor track)
+    photon_api_key: SecretStr | None = None  # Photon Spectrum iMessage agent (HackNC sponsor track)
+    # Independent optional data services. Supabase remains the auth/application database.
+    snowflake_account_host: str | None = None
+    snowflake_token: SecretStr | None = None
+    snowflake_token_type: Literal["PROGRAMMATIC_ACCESS_TOKEN", "OAUTH"] = Field(default="PROGRAMMATIC_ACCESS_TOKEN")
+    snowflake_warehouse: str | None = None
+    snowflake_database: str | None = None
+    snowflake_schema: str | None = None
+    snowflake_role: str | None = None
+    tigerdata_dsn: SecretStr | None = None
+    tigerdata_ssl_root_cert: str | None = None
     resend_api_key: SecretStr | None = None
     email_from: str | None = None
     slack_webhook_url: SecretStr | None = None

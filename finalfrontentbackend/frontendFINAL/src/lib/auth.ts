@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { cache } from "react";
 import { ROUTES } from "@/lib/constants";
 import { hasRole, parseRole } from "@/lib/roles";
+import { getOptionalSupabaseConfig } from "@/lib/supabase/config";
 import { createClient } from "@/lib/supabase/server";
 import type { AuthUser, Role } from "@/types/auth";
 
@@ -26,6 +27,9 @@ function toAuthUser(user: User): AuthUser {
  * Memoised per request, so layouts and pages can both call it cheaply.
  */
 export const getCurrentUser = cache(async (): Promise<AuthUser | null> => {
+  if (!getOptionalSupabaseConfig()) {
+    return null;
+  }
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getUser();
 

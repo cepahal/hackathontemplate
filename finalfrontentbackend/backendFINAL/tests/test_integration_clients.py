@@ -291,6 +291,9 @@ def test_status_reports_configuration_without_secrets() -> None:
         "anthropic": False,
         "grok": False,
         "github": True,
+        "nessie": False,
+        "snowflake": False,
+        "tigerdata": False,
         "maps": False,
         "email": True,
         "slack": True,
@@ -304,3 +307,26 @@ def test_registry_picks_maps_provider_and_ai_clients() -> None:
     assert isinstance(integrations.maps._geocoder, GoogleGeocoder)
     assert integrations.ai("anthropic") is integrations.anthropic
     assert integrations.openai.default_model == "gpt-4.1-mini"
+
+
+# --- Capital One Nessie ------------------------------------------------------------------
+
+
+async def test_nessie_lists_accounts_with_key_param() -> None:
+    from app.integrations.nessie.client import NessieClient
+
+    api = MockApi(httpx.Response(200, json=[{"_id": "ignored", "id": "a1", "type": "Checking", "balance": 12.5}]))
+    accounts = await NessieClient(api.client(), SecretStr("nessie-test-key")).list_accounts("c1")
+
+    assert accounts[0].balance == 12.5
+    assert api.last.url.path == "/customers/c1/accounts"
+    assert api.last.url.params["key"] == "nessie-test-key"
+
+
+async def test_nessie_rejects_bad_ids_and_missing_key() -> None:
+    from app.integrations.nessie.client import NessieClient
+
+    with pytest.raises(ValueError):
+        await NessieClient(MockApi().client(), SecretStr("k")).get_account("../x")
+    with pytest.raises(IntegrationNotConfiguredError, match="NESSIE_API_KEY"):
+        await NessieClient(MockApi().client(), None).list_customers()
