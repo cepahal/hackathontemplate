@@ -43,5 +43,8 @@ this starter does not replace Supabase or automatically replicate between them.
 - Ruff found a false positive treating the Snowflake authentication-mode string as a hardcoded
   credential. Its Pydantic Field declaration was adjusted; final Ruff passed, targeted strict
   mypy passed, and the affected configuration/integration suites passed all 98 tests.
-- Live provider connections are not verified. The branch is ready for publication to the original
-  template; no event strategy files or local account screenshots are included in this API change.
+- Live provider connections are not verified. No event strategy files or local account screenshots
+  are included in this API change.
+- Published branch `codex/hacknc-setup` to the original template and opened
+  [PR #6](https://github.com/cepahal/hackathontemplate/pull/6). GitHub's private-email push rejection
+  was resolved using this repository's local GitHub no-reply identity; global Git identity was preserved.

@@ -104,6 +104,9 @@ libpq's `system` trust option on supported versions. Apply the explicit event sc
 `backendFINAL/app/integrations/tigerdata/schema.sql` before calling event methods. Then optionally
 apply `hypertable.sql` to convert the events table where TimescaleDB is available. The client does not create
 services, enable extensions, or run migrations automatically.
+On Windows, psycopg async connections need a Selector event loop; the supplied reload-mode dev
+command is compatible. See the [Tiger Data README](../backendFINAL/app/integrations/tigerdata/README.md)
+for standalone Windows launch instructions and explicit SQL application.
 
 ## Photon Spectrum
 
@@ -111,7 +114,10 @@ services, enable extensions, or run migrations automatically.
 2. Apply the official `HACKWITHPHOTON` promo and inspect checkout. The observed offer is $0 today
    but renews at $25/month next month. User completion is required for that recurring subscription;
    it has not been activated by the agent. Checkout also requests Link verification.
-3. Create a dedicated project, obtain its project ID/secret, and provision its managed iMessage line.
+3. A dedicated free project was created. Add your genuine iMessage phone to your Photon account
+   (setup currently reports `account_phone_missing`), obtain the project ID/secret, and confirm
+   the project's managed line. Free/Pro plans use shared lines; allowlist the intended tester's
+   exact iMessage handle in the project's Users tab. Dedicated lines require Business.
 4. Copy `services/photon/.env.example` to `services/photon/.env`, then set:
 
 ```dotenv
